@@ -30,11 +30,12 @@ const useStyles = makeStyles(theme => ({
 const AddExpenseForm = props => {
   const classes = useStyles();
 
-  let date = `${props.values.date.getFullYear()}-${
-    props.values.date.getMonth().toString().length === 1
-      ? "0" + (props.values.date.getMonth() + 1).toString()
-      : props.values.date.getMonth() + 1
-  }-${props.values.date.getDate()}`;
+  const dateInFormat = new Date(props.values.date);
+  let date = `${dateInFormat.getFullYear()}-${
+    dateInFormat.getMonth().toString().length === 1
+      ? "0" + (dateInFormat.getMonth() + 1).toString()
+      : dateInFormat.getMonth() + 1
+  }-${dateInFormat.getDate()}`;
 
   return (
     <Paper className={classes.root}>
@@ -42,6 +43,7 @@ const AddExpenseForm = props => {
         <FormControl fullWidth>
           <TextField
             label="Reason"
+            variant="outlined"
             margin="normal"
             value={props.values.reason}
             onChange={e => props.change(e, "reason")}
@@ -50,6 +52,7 @@ const AddExpenseForm = props => {
         <FormControl fullWidth>
           <TextField
             label="Cost"
+            variant="outlined"
             margin="normal"
             type="number"
             value={props.values.cost}
@@ -68,6 +71,7 @@ const AddExpenseForm = props => {
             label="Date"
             margin="normal"
             type="date"
+            variant="outlined"
             defaultValue={date}
             onChange={e => props.change(e, "date")}
           />

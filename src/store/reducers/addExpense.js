@@ -2,7 +2,8 @@ import * as actionTypes from "../actionTypes/index";
 import combineObjectsAndReturn from "../../shared/combineObjectsAndReturn/combineObjectsAndReturn";
 
 const intialState = {
-  expenses: null
+  expenses: null,
+  addStatusMessage: null
 };
 
 const addExpenses = (state = intialState, action) => {

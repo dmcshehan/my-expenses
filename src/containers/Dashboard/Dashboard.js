@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import ExpenseTable from "../../components/ExpenseTable/ExpenseTable";
 import TotalSpent from "../../components/TotalSpent/TotalSpent";
 import AddExpenseForm from "../../components/AddExpenseForm/AddExpenseForm";
+import StatusMessage from "../../components/StatusMessage/StatusMessage";
 
 //redux
 import * as actionCreators from "../../store/actionCreators/index";
@@ -27,12 +28,14 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       formValues: {
-        reason: "default",
-        cost: "1000",
+        cost: "",
         currency: "",
-        date: new Date()
+        date: new Date().getTime(),
+        reason: "",
+        id: "",
+        userId: ""
       },
-      updateInProgress: false
+      statusMessage: null
     };
 
     this.formValueChnageHandler = this.formValueChnageHandler.bind(this);
@@ -40,6 +43,7 @@ class Dashboard extends React.Component {
     this.deleteExpenseHandler = this.deleteExpenseHandler.bind(this);
     this.updateExpenseHandler = this.updateExpenseHandler.bind(this);
     this.updateIconBtnClickHandler = this.updateIconBtnClickHandler.bind(this);
+    this.statusMessageCloseHandler = this.statusMessageCloseHandler.bind(this);
   }
 
   componentDidMount() {}
@@ -47,22 +51,31 @@ class Dashboard extends React.Component {
   updateExpenseHandler(e) {
     e.preventDefault();
 
-    let newData = this.state.formValues;
-    const expenseId = newData["id"];
-    delete newData["id"];
-    console.log(newData, expenseId);
-    this.props.updateExpense(expenseId, newData);
+    let newData = { ...this.state.formValues };
+    // const expenseId = newData["id"];
+    // delete newData["id"];
+
+    // this.props.updateExpense(expenseId, newData);
+    this.props.updateExpense(newData);
+  }
+
+  statusMessageCloseHandler() {
+    this.setState({
+      ...this.state,
+      statusMessage: null
+    });
   }
 
   updateIconBtnClickHandler(id) {
+    this.props.updateInit();
     let updateExpense = this.props.allExpenses.find(expense => {
       return expense.id === id;
     });
+
     if (updateExpense) {
       this.setState({
         ...this.state,
-        updateInProgress: true,
-        formValues: updateExpense
+        formValues: { ...updateExpense }
       });
     }
   }
@@ -87,7 +100,8 @@ class Dashboard extends React.Component {
       ...this.state,
       formValues: {
         ...this.state.formValues,
-        [type]: type === "date" ? new Date(e.target.value) : e.target.value
+        [type]:
+          type === "date" ? new Date(e.target.value).getTime() : e.target.value
       }
     });
   }
@@ -105,6 +119,13 @@ class Dashboard extends React.Component {
         </Grid>
         <Grid container spacing={8}>
           <Grid item xs={9}>
+            {this.state.statusMessage ? (
+              <StatusMessage
+                message={this.state.statusMessage}
+                open={this.state.statusMessage ? true : false}
+                close={this.statusMessageCloseHandler}
+              />
+            ) : null}
             <ExpenseTable
               allExpenses={this.props.allExpenses}
               onDelete={id => this.deleteExpenseHandler(id)}
@@ -116,7 +137,7 @@ class Dashboard extends React.Component {
               values={this.state.formValues}
               change={(e, type) => this.formValueChnageHandler(e, type)}
               submit={e => this.addExpenseHandler(e)}
-              btn={this.state.updateInProgress}
+              btn={this.props.updateInProgress}
               update={e => this.updateExpenseHandler(e)}
               baseCurrency={this.props.baseCurrency}
             />
@@ -132,7 +153,8 @@ const mapDispatchToProps = dispatch => {
     addExpense: expense => dispatch(actionCreators.addExpense(expense)),
     deleteExpense: id => dispatch(actionCreators.deleteExpense(id)),
     updateExpense: (id, newData) =>
-      dispatch(actionCreators.updateExpense(id, newData))
+      dispatch(actionCreators.updateExpense(id, newData)),
+    updateInit: () => dispatch(actionCreators.updateInit())
   };
 };
 
@@ -141,7 +163,11 @@ const mapStateToProps = state => {
     totalSpentInUSD: state.calculate.totalSpentInUSD,
     allExpenses: state.fetch.expenses,
     baseCurrency: state.auth.user.baseCurrency,
-    user: state.auth.user
+    user: state.auth.user,
+    addStatusMessage: state.add.addStatusMessage,
+    updateStatusMessage: state.update.updateStatusMessage,
+    deleteStatusMessage: state.delete.deleteStatusMessage,
+    updateInProgress: state.update.updateInProgress
   };
 };
 

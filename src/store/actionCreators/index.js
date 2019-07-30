@@ -4,7 +4,7 @@ export { fetchExpenses } from "./fetchExpenses";
 
 export { deleteExpense } from "./deleteExpense";
 
-export { updateExpense } from "./updateExpense";
+export { updateExpense, updateInit } from "./updateExpense";
 
 export { calculateAmountSpent, updateBaseCurrency } from "./calculateExpenses";
 

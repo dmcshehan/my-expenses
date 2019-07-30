@@ -1,31 +1,39 @@
-import * as actionTypes from '../actionTypes/index';
-import axios from '../../axios/axios-expenses';
-
-import * as actionCreators from '../actionCreators/fetchExpenses';
+import * as actionTypes from "../actionTypes/index";
 
 const updateExpenseSuccess = () => {
-    return {
-        type: actionTypes.ON_EXPENSES_UPDATE_SUCCESS
-    }
-}
+  return {
+    type: actionTypes.ON_EXPENSES_UPDATE_SUCCESS
+  };
+};
 
-export const updateExpense = (id, newData) => {
-    return (dispatch, getState) => {
+const initializeUpdate = () => {
+  return {
+    type: actionTypes.ON_EXPENSES_UPDATE_INIT
+  };
+};
 
-        const state = getState();
-        const currentUserId = state.auth.user.uid;
+export const updateInit = () => {
+  return dispatch => {
+    dispatch(initializeUpdate());
+  };
+};
 
-        axios
-            .put(`/expenses/${id}.json`, newData)
-            .then(response => {
-                dispatch(updateExpenseSuccess());
-                dispatch(actionCreators.fetchExpenses(currentUserId));
-            }).catch(error => {
-                console.log(error);
-            })
-    }
-}
+export const updateExpense = newData => {
+  return (dispatch, getState) => {
+    const state = getState();
 
+    const originalExpense = Object.keys(state.fetch.expenses);
 
+    console.log(newData.id, originalExpense, state.fetch.expenses);
 
-
+    // axios
+    //   .put(`/expenses/${id}.json`, newData)
+    //   .then(response => {
+    //     dispatch(updateExpenseSuccess());
+    //     dispatch(actionCreators.fetchExpenses(currentUserId));
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+  };
+};
