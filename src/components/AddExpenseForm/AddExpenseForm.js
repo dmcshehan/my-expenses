@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 //antd
 import {
@@ -14,12 +14,29 @@ import {
 const { Text } = Typography;
 
 const AddExpenseForm = props => {
-  const dateInFormat = new Date(props.values.date);
-  let date = `${dateInFormat.getFullYear()}-${
-    dateInFormat.getMonth().toString().length === 1
-      ? "0" + (dateInFormat.getMonth() + 1).toString()
-      : dateInFormat.getMonth() + 1
-  }-${dateInFormat.getDate()}`;
+  const [values, setValues] = useState({
+    reason: "",
+    amount: "",
+    date: null
+  });
+
+  const updateValues = (e, type) => {
+    switch (type) {
+      case "reason":
+        setValues({ ...values, reason: e.target.value });
+        break;
+      case "amount":
+        setValues({ ...values, amount: e });
+        break;
+      case "date":
+        setValues({ ...values, date: e._d ? e._d : null });
+        break;
+      default:
+        setValues({ ...values });
+    }
+  };
+
+  console.log(values);
 
   return (
     <Card>
@@ -31,8 +48,9 @@ const AddExpenseForm = props => {
           <Input
             placeholder="Shopping"
             size="large"
-            value={props.values.reason}
-            onChange={e => props.change(e, "reason")}
+            value={values.reason}
+            onChange={e => updateValues(e, "reason")}
+            name="reason"
           />
         </Form.Item>
         <Form.Item>
@@ -47,6 +65,7 @@ const AddExpenseForm = props => {
               `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }
             parser={value => value.replace(/\$\s?|(,*)/g, "")}
+            onChange={e => updateValues(e, "amount")}
           />
         </Form.Item>
         <Form.Item>
@@ -56,7 +75,7 @@ const AddExpenseForm = props => {
           <DatePicker
             style={{ display: "block", width: "100%" }}
             size="large"
-            onChange={() => {}}
+            onChange={e => updateValues(e, "date")}
           />
         </Form.Item>
 
