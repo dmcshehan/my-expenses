@@ -1,13 +1,5 @@
 import React from "react";
 
-//material stuff
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import { withStyles } from "@material-ui/styles";
-
-import Aux from "../../hoc/Aux/Aux";
-
 //redux
 import { connect } from "react-redux";
 import * as actionCreators from "../../store/actionCreators/index";
@@ -16,27 +8,10 @@ import * as actionCreators from "../../store/actionCreators/index";
 import firebase from "firebase/app";
 import "firebase/auth";
 
-//import currencies from "../../shared/currencies/currencies";
+//antd
+import { Typography, Card } from "antd";
 
-const styles = theme => ({
-  mainTitle: {
-    fontWeight: 300
-  },
-  total: {
-    padding: theme.spacing(2),
-    marginTop: theme.spacing(2),
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-end"
-  },
-  formControl: {
-    minWidth: 240
-  },
-  button: {
-    color: "#fff",
-    marginTop: theme.spacing(2)
-  }
-});
+const { Text, Title } = Typography;
 
 class TotalSpent extends React.Component {
   constructor(props) {
@@ -75,30 +50,12 @@ class TotalSpent extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <Aux>
-        <Grid item xs={12}>
-          <Paper className={classes.total}>
-            <Typography
-              variant="button"
-              display="block"
-              gutterBottom
-              className={classes.mainTitle}
-              align="right"
-            >
-              Total Spent
-            </Typography>
-            <Typography
-              variant="h5"
-              display="block"
-              gutterBottom
-              className={classes.mainTitle}
-              align="right"
-            >
-              {this.props.amountSpent} {this.props.baseCurrency}
-            </Typography>
-          </Paper>
-        </Grid>
-      </Aux>
+      <Card>
+        <Title level={4}>Total Spent</Title>
+        <Text>
+          {this.props.amountSpent} {this.props.baseCurrency}
+        </Text>
+      </Card>
     );
   }
 }
@@ -120,4 +77,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(TotalSpent));
+)(TotalSpent);
