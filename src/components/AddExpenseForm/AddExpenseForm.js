@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { addExpense } from "../../store/actionCreators/addExpense";
 
 //antd
 import {
@@ -13,7 +14,7 @@ import {
 
 const { Text } = Typography;
 
-const AddExpenseForm = props => {
+const AddExpenseForm = ({ onAdd, onUpdate, btn }) => {
   const [values, setValues] = useState({
     reason: "",
     amount: "",
@@ -35,8 +36,6 @@ const AddExpenseForm = props => {
         setValues({ ...values });
     }
   };
-
-  console.log(values);
 
   return (
     <Card>
@@ -80,14 +79,12 @@ const AddExpenseForm = props => {
         </Form.Item>
 
         <Form.Item>
-          {!props.btn ? (
+          {!btn ? (
             <Button
               block
               htmlType="submit"
               type="primary"
-              onClick={e => {
-                props.submit(e);
-              }}
+              onClick={e => onAdd(e, values)}
             >
               Add
             </Button>
@@ -97,7 +94,7 @@ const AddExpenseForm = props => {
               htmlType="submit"
               type="primary"
               onClick={e => {
-                props.update(e);
+                onUpdate(e);
               }}
             >
               Update
