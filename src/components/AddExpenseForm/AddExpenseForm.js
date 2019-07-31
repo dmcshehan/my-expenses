@@ -3,7 +3,6 @@ import React from "react";
 //antd
 import {
   Form,
-  Icon,
   Input,
   Button,
   InputNumber,
@@ -12,7 +11,7 @@ import {
   Typography
 } from "antd";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 const AddExpenseForm = props => {
   const dateInFormat = new Date(props.values.date);

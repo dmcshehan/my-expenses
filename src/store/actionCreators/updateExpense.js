@@ -1,10 +1,10 @@
 import * as actionTypes from "../actionTypes/index";
 
-const updateExpenseSuccess = () => {
-  return {
-    type: actionTypes.ON_EXPENSES_UPDATE_SUCCESS
-  };
-};
+// const updateExpenseSuccess = () => {
+//   return {
+//     type: actionTypes.ON_EXPENSES_UPDATE_SUCCESS
+//   };
+// };
 
 const initializeUpdate = () => {
   return {

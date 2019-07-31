@@ -48,7 +48,6 @@ class TotalSpent extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
       <Card>
         <Title level={4}>Total Spent</Title>

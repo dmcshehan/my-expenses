@@ -1,4 +1,4 @@
-import React, { Children } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 //firebase
@@ -26,10 +26,6 @@ class MenuAppBar extends React.Component {
     this.profileIconClickHandler = this.profileIconClickHandler.bind(this);
     this.onLinkClick = this.onLinkClick.bind(this);
     this.onMenuIconClickHandler = this.onMenuIconClickHandler.bind(this);
-  }
-
-  componentDidMount() {
-    // console.log("componentDidMount[Header.js]", this.props.isAuthenticated);
   }
 
   onLogout() {
@@ -64,8 +60,6 @@ class MenuAppBar extends React.Component {
   }
 
   render() {
-    const { classes, children } = this.props;
-
     return (
       <Header>
         <div className="logo" />
@@ -85,7 +79,7 @@ class MenuAppBar extends React.Component {
 }
 
 MenuAppBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  onLogout: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {

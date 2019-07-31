@@ -1,9 +1,9 @@
 import React from "react";
 import Header from "../../components/Header/Header";
 import FooterComp from "../../components/Footer/Footer";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout } from "antd";
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 const LayoutComp = props => {
   return (
