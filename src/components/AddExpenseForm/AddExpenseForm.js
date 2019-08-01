@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { addExpense } from "../../store/actionCreators/addExpense";
-
+import moment from "moment";
 //antd
 import {
   Form,
@@ -57,6 +57,7 @@ const AddExpenseForm = ({ onAdd, onUpdate, btn }) => {
             Amount
           </Text>
           <InputNumber
+            value={values.amount}
             style={{ display: "block", width: "100%" }}
             placeholder="Amount"
             size="large"
@@ -72,6 +73,7 @@ const AddExpenseForm = ({ onAdd, onUpdate, btn }) => {
             Expense Date
           </Text>
           <DatePicker
+            value={values.date ? moment(new Date(values.date)) : null}
             style={{ display: "block", width: "100%" }}
             size="large"
             onChange={e => updateValues(e, "date")}
@@ -84,7 +86,14 @@ const AddExpenseForm = ({ onAdd, onUpdate, btn }) => {
               block
               htmlType="submit"
               type="primary"
-              onClick={e => onAdd(e, values)}
+              onClick={e => {
+                onAdd(e, values);
+                setValues({
+                  reason: "",
+                  amount: "",
+                  date: null
+                });
+              }}
             >
               Add
             </Button>

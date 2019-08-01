@@ -22,7 +22,7 @@ const fetchExpensesStart = () => {
   };
 };
 
-export const fetchExpenses = userId => {
+export const fetchExpenses = () => {
   return (dispatch, getState) => {
     const state = getState();
     const currentUserId = state.auth.user.uid;
