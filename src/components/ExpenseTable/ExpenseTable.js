@@ -1,74 +1,165 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import moment from "moment";
+import produce from "immer";
 
-//other Material Components
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import IconButton from "@material-ui/core/IconButton";
+import { fetchExpenses } from "../../store/actionCreators/fetchExpenses";
+import { deleteExpense } from "../../store/actionCreators/deleteExpense";
+import { updateExpense } from "../../store/actionCreators/updateExpense";
 
-//button icons
-import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-//Styles
-import { withStyles } from "@material-ui/styles";
-
-const styles = theme => ({
-  actionIcon: {
-    fontSize: 20
-  }
-});
+import { Table, Button, Input, InputNumber, DatePicker } from "antd";
+const ButtonGroup = Button.Group;
 
 class ExpenseList extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  state = {
+    keyBeignEdited: null,
+    expObj: null
+  };
+
   render() {
-    const { classes } = this.props;
-    return this.props.allExpenses !== null ? (
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Reason</TableCell>
-            <TableCell align="right">Cost</TableCell>
-            <TableCell align="right">Date</TableCell>
-            <TableCell align="right">Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {this.props.allExpenses.map((expense, index) => (
-            <TableRow key={expense.id}>
-              <TableCell align="left">{expense.reason}</TableCell>
-              <TableCell align="right">{expense.cost}</TableCell>
-              <TableCell align="right">
-                {`${expense.date.getDate()}-${
-                  expense.date.getMonth().toString().length === 1
-                    ? "0" + (expense.date.getMonth() + 1).toString()
-                    : expense.date.getMonth() + 1
-                }-${expense.date.getFullYear()}`}
-              </TableCell>
-              <TableCell align="right">
-                <IconButton
-                  aria-label="Delete"
-                  className={classes.actionIcon}
-                  onClick={() => this.props.onDelete(expense.id)}
-                >
-                  <DeleteIcon fontSize="large" className={classes.actionIcon} />
-                </IconButton>
-                <IconButton
-                  aria-label="Delete"
-                  className={classes.actionIcon}
-                  onClick={() => this.props.onUpdate(expense.id)}
-                >
-                  <EditIcon fontSize="large" className={classes.actionIcon} />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    ) : (
-      <p>Loading</p>
-    );
+    const {
+      fetchExpenses,
+      deleteExpense,
+      updateExpense,
+      expenses
+    } = this.props;
+
+    const columns = [
+      {
+        title: "Reason",
+        dataIndex: "reason",
+        key: "name",
+        render: (text, expense) =>
+          expense.key === this.state.keyBeignEdited ? (
+            <Input
+              value={this.state.expObj.reason}
+              onChange={e => {
+                e.persist();
+                this.setState(
+                  produce(draft => {
+                    draft.expObj.reason = e.target.value;
+                  })
+                );
+              }}
+            />
+          ) : (
+            <p>{expense.reason}</p>
+          )
+      },
+      {
+        title: "Amount",
+        dataIndex: "amount",
+        key: "amount",
+        render: (text, expense) =>
+          expense.key === this.state.keyBeignEdited ? (
+            <InputNumber
+              defaultValue={this.state.expObj.amount}
+              formatter={value =>
+                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              parser={value => value.replace(/\$\s?|(,*)/g, "")}
+              onChange={value => {
+                this.setState(
+                  produce(draft => {
+                    draft.expObj.amount = value;
+                  })
+                );
+              }}
+            />
+          ) : (
+            <p>{expense.amount}</p>
+          )
+      },
+      {
+        title: "Date",
+        dataIndex: "date",
+        key: "date",
+        render: (text, expense) =>
+          expense.key === this.state.keyBeignEdited ? (
+            <DatePicker
+              defaultValue={moment(new Date(expense.date))}
+              onChange={dateObj => {
+                this.setState(
+                  produce(draft => {
+                    draft.expObj.date = dateObj._d;
+                  })
+                );
+              }}
+            />
+          ) : (
+            <p>{moment(expense.date).format("MMM Do YY")}</p>
+          )
+      },
+      {
+        title: "Actions",
+        dataIndex: "actions",
+        key: "actions",
+        render: (text, expense) =>
+          expense.key === this.state.keyBeignEdited ? (
+            <Button
+              icon="check"
+              type="primary"
+              onClick={() => {
+                updateExpense(expense.key, this.state.expObj);
+                this.setState({
+                  keyBeignEdited: null,
+                  expObj: null
+                });
+              }}
+            />
+          ) : (
+            <ButtonGroup>
+              <Button
+                icon="delete"
+                type="danger"
+                onClick={() => deleteExpense(expense.key)}
+              />
+              <Button
+                icon="edit"
+                type="primary"
+                onClick={() =>
+                  this.setState({
+                    keyBeignEdited: expense.key,
+                    expObj: expense
+                  })
+                }
+              />
+            </ButtonGroup>
+          )
+      }
+    ];
+
+    //date is stored as an object
+    const data = expenses
+      ? expenses.map(expense => ({
+          ...expense,
+          date: expense.date.toString()
+        }))
+      : [];
+
+    console.log(this.state);
+
+    return <Table columns={columns} dataSource={data} />;
   }
 }
 
-export default withStyles(styles)(ExpenseList);
+const mapStateToProps = state => ({
+  expenses: state.fetch.expenses
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchExpenses: userId => dispatch(fetchExpenses(userId)),
+    deleteExpense: key => dispatch(deleteExpense(key)),
+    updateExpense: (key, newData) => dispatch(updateExpense(key, newData))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExpenseList);

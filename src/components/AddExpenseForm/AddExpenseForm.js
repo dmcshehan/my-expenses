@@ -1,113 +1,117 @@
-import React from "react";
+import React, { useState } from "react";
+import { addExpense } from "../../store/actionCreators/addExpense";
+import moment from "moment";
+//antd
+import {
+  Form,
+  Input,
+  Button,
+  InputNumber,
+  DatePicker,
+  Card,
+  Typography
+} from "antd";
 
-//Material UI componenets
-import Paper from "@material-ui/core/Paper";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import FormControl from "@material-ui/core/FormControl";
-import InputAdornment from "@material-ui/core/InputAdornment";
+const { Text } = Typography;
 
-import { makeStyles } from "@material-ui/core/styles";
-import DeleteIcon from "@material-ui/icons/Send";
-import UpdateIcon from "@material-ui/icons/Save";
+const AddExpenseForm = ({ onAdd, onUpdate, btn }) => {
+  const [values, setValues] = useState({
+    reason: "",
+    amount: "",
+    date: null
+  });
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(3, 2)
-  },
-  textFields: {
-    displa: "block"
-  },
-  button: {
-    color: "#ffffff",
-    marginTop: theme.spacing(3)
-  },
-  rightIcon: {
-    marginLeft: theme.spacing(1)
-  }
-}));
-
-const AddExpenseForm = props => {
-  const classes = useStyles();
-
-  const dateInFormat = new Date(props.values.date);
-  let date = `${dateInFormat.getFullYear()}-${
-    dateInFormat.getMonth().toString().length === 1
-      ? "0" + (dateInFormat.getMonth() + 1).toString()
-      : dateInFormat.getMonth() + 1
-  }-${dateInFormat.getDate()}`;
+  const updateValues = (e, type) => {
+    switch (type) {
+      case "reason":
+        setValues({ ...values, reason: e.target.value });
+        break;
+      case "amount":
+        setValues({ ...values, amount: e });
+        break;
+      case "date":
+        setValues({ ...values, date: e._d ? e._d : null });
+        break;
+      default:
+        setValues({ ...values });
+    }
+  };
 
   return (
-    <Paper className={classes.root}>
+    <Card>
       <form>
-        <FormControl fullWidth>
-          <TextField
-            label="Reason"
-            variant="outlined"
-            margin="normal"
-            value={props.values.reason}
-            onChange={e => props.change(e, "reason")}
+        <Form.Item>
+          <Text strong style={{ fontSize: 16 }}>
+            Reason
+          </Text>
+          <Input
+            placeholder="Shopping"
+            size="large"
+            value={values.reason}
+            onChange={e => updateValues(e, "reason")}
+            name="reason"
           />
-        </FormControl>
-        <FormControl fullWidth>
-          <TextField
-            label="Cost"
-            variant="outlined"
-            margin="normal"
-            type="number"
-            value={props.values.cost}
-            onChange={e => props.change(e, "cost")}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  {props.baseCurrency}
-                </InputAdornment>
-              )
-            }}
+        </Form.Item>
+        <Form.Item>
+          <Text strong style={{ fontSize: 16 }}>
+            Amount
+          </Text>
+          <InputNumber
+            value={values.amount}
+            style={{ display: "block", width: "100%" }}
+            placeholder="Amount"
+            size="large"
+            formatter={value =>
+              `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
+            parser={value => value.replace(/\$\s?|(,*)/g, "")}
+            onChange={e => updateValues(e, "amount")}
           />
-        </FormControl>
-        <FormControl fullWidth>
-          <TextField
-            label="Date"
-            margin="normal"
-            type="date"
-            variant="outlined"
-            defaultValue={date}
-            onChange={e => props.change(e, "date")}
+        </Form.Item>
+        <Form.Item>
+          <Text strong style={{ fontSize: 16 }}>
+            Expense Date
+          </Text>
+          <DatePicker
+            value={values.date ? moment(new Date(values.date)) : null}
+            style={{ display: "block", width: "100%" }}
+            size="large"
+            onChange={e => updateValues(e, "date")}
           />
-        </FormControl>
+        </Form.Item>
 
-        <FormControl>
-          {!props.btn ? (
+        <Form.Item>
+          {!btn ? (
             <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.button}
+              block
+              htmlType="submit"
+              type="primary"
               onClick={e => {
-                props.submit(e);
+                onAdd(e, values);
+                setValues({
+                  reason: "",
+                  amount: "",
+                  date: null
+                });
               }}
             >
               Add
-              <DeleteIcon className={classes.rightIcon} />
             </Button>
           ) : (
             <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.button}
+              block
+              htmlType="submit"
+              type="primary"
               onClick={e => {
-                props.update(e);
+                onUpdate(e);
               }}
             >
               Update
-              <UpdateIcon className={classes.rightIcon} />
             </Button>
           )}
-        </FormControl>
+        </Form.Item>
       </form>
-    </Paper>
+    </Card>
   );
 };
 

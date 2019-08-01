@@ -1,4 +1,6 @@
 import * as actionTypes from "../actionTypes/index";
+import axios from "../../axios/axios-expenses";
+import { fetchExpenses } from "../actionCreators/fetchExpenses";
 
 const updateExpenseSuccess = () => {
   return {
@@ -18,22 +20,20 @@ export const updateInit = () => {
   };
 };
 
-export const updateExpense = newData => {
+export const updateExpense = (key, newData) => {
   return (dispatch, getState) => {
     const state = getState();
+    const currentUserId = state.auth.user.uid;
 
-    const originalExpense = Object.keys(state.fetch.expenses);
-
-    console.log(newData.id, originalExpense, state.fetch.expenses);
-
-    // axios
-    //   .put(`/expenses/${id}.json`, newData)
-    //   .then(response => {
-    //     dispatch(updateExpenseSuccess());
-    //     dispatch(actionCreators.fetchExpenses(currentUserId));
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    console.log(newData);
+    axios
+      .put(`/${currentUserId}/${key}.json`, newData)
+      .then(response => {
+        dispatch(updateExpenseSuccess());
+        dispatch(fetchExpenses());
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 };

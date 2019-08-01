@@ -22,19 +22,19 @@ const fetchExpensesStart = () => {
   };
 };
 
-export const fetchExpenses = userId => {
-  return dispatch => {
-    let queryParams = `?orderBy="userId"&equalTo="${userId}"`;
+export const fetchExpenses = () => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const currentUserId = state.auth.user.uid;
 
     axios
-      .get(`/expenses.json${queryParams}`)
+      .get(`/${currentUserId}.json`)
       .then(response => {
         let allData = null;
         if (response.data !== null) {
           allData = Object.keys(response.data).map(uniqueId => ({
             ...response.data[uniqueId],
-            id: uniqueId,
-            date: new Date(response.data[uniqueId].date)
+            key: uniqueId
           }));
         }
         dispatch(fetchExpensesStart());

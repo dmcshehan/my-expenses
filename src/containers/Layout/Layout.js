@@ -1,13 +1,22 @@
 import React from "react";
 import Header from "../../components/Header/Header";
+import FooterComp from "../../components/Footer/Footer";
+import { Layout } from "antd";
 
-const Layout = (props) => {
+const { Content } = Layout;
+
+const LayoutComp = props => {
   return (
-    <div>
+    <Layout className="layout">
       <Header isAuthenticated={props.auth} />
-      {props.children}
-    </div>
+      <Content>
+        <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
+          {props.children}
+        </div>
+      </Content>
+      <FooterComp />
+    </Layout>
   );
 };
 
-export default Layout;
+export default LayoutComp;

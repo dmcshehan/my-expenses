@@ -16,6 +16,7 @@ import StatusMessage from "../../components/StatusMessage/StatusMessage";
 
 //redux
 import * as actionCreators from "../../store/actionCreators/index";
+import { deleteExpense } from "../../store/actionCreators/deleteExpense";
 
 const styles = theme => ({
   mainTitle: {
@@ -52,10 +53,6 @@ class Dashboard extends React.Component {
     e.preventDefault();
 
     let newData = { ...this.state.formValues };
-    // const expenseId = newData["id"];
-    // delete newData["id"];
-
-    // this.props.updateExpense(expenseId, newData);
     this.props.updateExpense(newData);
   }
 
@@ -80,19 +77,15 @@ class Dashboard extends React.Component {
     }
   }
 
-  addExpenseHandler(e) {
+  addExpenseHandler(e, expense) {
+    const { addExpense } = this.props;
     e.preventDefault();
-    const newData = this.state.formValues;
-    newData.userId = this.props.user.uid;
-    newData.currency = this.props.user.baseCurrency;
-
-    this.props.addExpense({
-      ...newData
-    });
+    addExpense(expense);
   }
 
-  deleteExpenseHandler(id) {
-    this.props.deleteExpense(id);
+  deleteExpenseHandler(key) {
+    const { deleteExpense } = this.props;
+    deleteExpense(key);
   }
 
   formValueChnageHandler(e, type) {
@@ -127,8 +120,8 @@ class Dashboard extends React.Component {
               />
             ) : null}
             <ExpenseTable
-              allExpenses={this.props.allExpenses}
-              onDelete={id => this.deleteExpenseHandler(id)}
+              expenses={this.props.allExpenses}
+              onDelete={key => this.deleteExpenseHandler(key)}
               onUpdate={id => this.updateIconBtnClickHandler(id)}
             />
           </Grid>
@@ -136,9 +129,9 @@ class Dashboard extends React.Component {
             <AddExpenseForm
               values={this.state.formValues}
               change={(e, type) => this.formValueChnageHandler(e, type)}
-              submit={e => this.addExpenseHandler(e)}
+              onAdd={(e, expense) => this.addExpenseHandler(e, expense)}
               btn={this.props.updateInProgress}
-              update={e => this.updateExpenseHandler(e)}
+              onUpdate={e => this.updateExpenseHandler(e)}
               baseCurrency={this.props.baseCurrency}
             />
           </Grid>
@@ -151,7 +144,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchExpenses: userId => dispatch(actionCreators.fetchExpenses(userId)),
     addExpense: expense => dispatch(actionCreators.addExpense(expense)),
-    deleteExpense: id => dispatch(actionCreators.deleteExpense(id)),
+    deleteExpense: key => dispatch(deleteExpense(key)),
     updateExpense: (id, newData) =>
       dispatch(actionCreators.updateExpense(id, newData)),
     updateInit: () => dispatch(actionCreators.updateInit())
