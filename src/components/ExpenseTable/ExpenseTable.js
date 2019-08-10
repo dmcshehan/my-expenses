@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import moment from "moment";
 import produce from "immer";
 
-import { fetchExpenses } from "../../store/actionCreators/fetchExpenses";
+//import { fetchExpenses } from "../../store/actionCreators/fetchExpenses";
 import { deleteExpense } from "../../store/actionCreators/deleteExpense";
 import { updateExpense } from "../../store/actionCreators/updateExpense";
 
@@ -11,10 +11,6 @@ import { Table, Button, Input, InputNumber, DatePicker } from "antd";
 const ButtonGroup = Button.Group;
 
 class ExpenseList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   state = {
     keyBeignEdited: null,
     expObj: null
@@ -22,7 +18,7 @@ class ExpenseList extends Component {
 
   render() {
     const {
-      fetchExpenses,
+      //fetchExpenses,
       deleteExpense,
       updateExpense,
       expenses
@@ -153,7 +149,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchExpenses: userId => dispatch(fetchExpenses(userId)),
+    // fetchExpenses: userId => dispatch(fetchExpenses(userId)),
     deleteExpense: key => dispatch(deleteExpense(key)),
     updateExpense: (key, newData) => dispatch(updateExpense(key, newData))
   };

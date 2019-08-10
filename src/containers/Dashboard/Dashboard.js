@@ -1,10 +1,6 @@
 import React from "react";
 
-//material stuff
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import { withStyles } from "@material-ui/styles";
-
+import { Row, Col } from "antd";
 // redux stuff
 import { connect } from "react-redux";
 
@@ -12,17 +8,10 @@ import { connect } from "react-redux";
 import ExpenseTable from "../../components/ExpenseTable/ExpenseTable";
 import TotalSpent from "../../components/TotalSpent/TotalSpent";
 import AddExpenseForm from "../../components/AddExpenseForm/AddExpenseForm";
-import StatusMessage from "../../components/StatusMessage/StatusMessage";
 
 //redux
 import * as actionCreators from "../../store/actionCreators/index";
 import { deleteExpense } from "../../store/actionCreators/deleteExpense";
-
-const styles = theme => ({
-  mainTitle: {
-    marginTop: theme.spacing(3)
-  }
-});
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -101,31 +90,24 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <Container maxWidth="xl">
-        <Grid container spacing={8}>
-          <Grid item xs={9}>
+      <>
+        <Row gutter={32}>
+          <Col span={18}>
             <p>Space </p>
-          </Grid>
-          <Grid item xs={3}>
+          </Col>
+          <Col span={6} style={{ marginBottom: 32 }}>
             <TotalSpent total={this.props.totalSpentInLKR} />
-          </Grid>
-        </Grid>
-        <Grid container spacing={8}>
-          <Grid item xs={9}>
-            {this.state.statusMessage ? (
-              <StatusMessage
-                message={this.state.statusMessage}
-                open={this.state.statusMessage ? true : false}
-                close={this.statusMessageCloseHandler}
-              />
-            ) : null}
+          </Col>
+        </Row>
+        <Row gutter={32}>
+          <Col span={18}>
             <ExpenseTable
               expenses={this.props.allExpenses}
               onDelete={key => this.deleteExpenseHandler(key)}
               onUpdate={id => this.updateIconBtnClickHandler(id)}
             />
-          </Grid>
-          <Grid item xs={3}>
+          </Col>
+          <Col span={6}>
             <AddExpenseForm
               values={this.state.formValues}
               change={(e, type) => this.formValueChnageHandler(e, type)}
@@ -134,9 +116,9 @@ class Dashboard extends React.Component {
               onUpdate={e => this.updateExpenseHandler(e)}
               baseCurrency={this.props.baseCurrency}
             />
-          </Grid>
-        </Grid>
-      </Container>
+          </Col>
+        </Row>
+      </>
     );
   }
 }
@@ -167,4 +149,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Dashboard));
+)(Dashboard);

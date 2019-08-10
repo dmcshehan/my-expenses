@@ -1,18 +1,13 @@
 import React from "react";
 import "./App.css";
 
-//Material UI
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
-
 //Routing stuff
 import { Switch, Route } from "react-router";
 import { Redirect } from "react-router-dom";
 
 //firebase
-import firebase from "firebase/app";
-import "firebase/auth";
+// import firebase from "firebase/app";
+// import "firebase/auth";
 
 //redux
 import { connect } from "react-redux";
@@ -24,22 +19,6 @@ import Auth from "./containers/Auth/Auth";
 import Layout from "./containers/Layout/Layout";
 import Profile from "./containers/Profile/Profile";
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: "#86f0ff",
-      main: "#339CE5",
-      dark: "#008da3"
-    },
-    secondary: {
-      light: "#bdf479",
-      main: "#4FA954",
-      dark: "#599015"
-    }
-  },
-  typography: { useNextVariants: true }
-});
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -50,11 +29,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.props.onAuth(user);
-      }
-    });
+    // this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
+    //   if (user) {
+    //     this.props.onAuth(user);
+    //   }
+    // });
   }
 
   render() {
@@ -66,8 +45,10 @@ class App extends React.Component {
     );
 
     if (this.props.isAuthenticated) {
+      console.log("Authenticated");
       routes = (
         <Switch>
+          <Route exact path="/login" component={Auth} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/profile" component={Profile} />
           <Redirect to="/dashboard" />
@@ -75,13 +56,7 @@ class App extends React.Component {
       );
     }
 
-    return (
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <MuiThemeProvider theme={theme}>
-          <Layout auth={this.props.isAuthenticated}>{routes}</Layout>
-        </MuiThemeProvider>
-      </MuiPickersUtilsProvider>
-    );
+    return <Layout auth={this.props.isAuthenticated}>{routes}</Layout>;
   }
 }
 

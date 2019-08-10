@@ -10,7 +10,14 @@ const LayoutComp = props => {
     <Layout className="layout">
       <Header isAuthenticated={props.auth} />
       <Content>
-        <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
+        <div
+          style={{
+            background: "#fff",
+            padding: 24,
+            minHeight: "calc(100vh - 133px)",
+            boxSizing: "border-box"
+          }}
+        >
           {props.children}
         </div>
       </Content>
