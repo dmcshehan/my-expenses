@@ -1,10 +1,7 @@
 import React from "react";
 import { Form, Icon, Input, Button, Checkbox, Card, Row, Col } from "antd";
 import { connect } from "react-redux";
-import {
-  authUserAction,
-  getCurrentUserAction
-} from "../../store/actionCreators/auth";
+import { authUserAction } from "../../store/actionCreators/auth";
 import styles from "./auth.module.scss";
 
 class NormalLoginForm extends React.Component {
@@ -16,11 +13,6 @@ class NormalLoginForm extends React.Component {
   state = {
     isLogin: true
   };
-
-  componentDidMount() {
-    const { getCurrentUser } = this.props;
-    getCurrentUser();
-  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -139,8 +131,7 @@ class NormalLoginForm extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  authenticateUser: user => dispatch(authUserAction(user)),
-  getCurrentUser: () => dispatch(getCurrentUserAction())
+  authenticateUser: user => dispatch(authUserAction(user))
 });
 
 export default connect(

@@ -8,7 +8,9 @@ import {
 const onAuthSuccess = user => {
   return {
     type: ON_AUTH_SUCCESS,
-    user: user
+    payload: {
+      user
+    }
   };
 };
 const onAuthStart = () => {
@@ -17,9 +19,12 @@ const onAuthStart = () => {
   };
 };
 
-const onAuthFail = user => {
+const onAuthFail = error => {
   return {
-    type: ON_AUTH_FAIL
+    type: ON_AUTH_FAIL,
+    payload: {
+      error
+    }
   };
 };
 
@@ -30,11 +35,11 @@ export const authUserAction = ({ email, password }) => {
     firebase
       .login({ email, password })
       .then(resuts => {
-        console.log(resuts.user);
+        dispatch(onAuthStart());
         dispatch(onAuthSuccess(resuts.user.user));
       })
       .catch(error => {
-        console.log(error);
+        dispatch(onAuthFail(error));
       });
   };
 };
@@ -43,9 +48,13 @@ export const getCurrentUserAction = () => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
 
-    let currentUser = firebase.auth().currentUser;
-
-    console.log("currentUser", currentUser);
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        dispatch(onAuthSuccess(user));
+      } else {
+        console.log("no signed in user");
+      }
+    });
   };
 };
 

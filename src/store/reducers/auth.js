@@ -1,3 +1,5 @@
+import produce from "immer";
+
 import {
   ON_AUTH_SUCCESS,
   ON_AUTH_START,
@@ -5,37 +7,37 @@ import {
   ON_AUTH_LOGOUT
 } from "../actionTypes/auth.js";
 
-import combineObjectsAndReturn from "../../shared/combineObjectsAndReturn/combineObjectsAndReturn";
-
 const intialState = {
   user: null,
   error: null,
   authenticating: false
 };
 
-const auth = (state = intialState, action) => {
-  switch (action.type) {
-    case ON_AUTH_START:
-      return combineObjectsAndReturn(state, { authenticating: true });
+const auth = (state = intialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+      case ON_AUTH_START:
+        draft.authenticating = true;
+        break;
 
-    case ON_AUTH_SUCCESS:
-      return combineObjectsAndReturn(state, {
-        user: action.user,
-        authenticating: false
-      });
+      case ON_AUTH_SUCCESS:
+        draft.authenticating = false;
+        draft.error = null;
+        draft.user = action.payload.user;
+        break;
 
-    case ON_AUTH_FAIL:
-      return combineObjectsAndReturn(state, {
-        error: action.error,
-        authenticating: false
-      });
+      case ON_AUTH_FAIL:
+        draft.error = action.payload.error;
+        draft.authenticating = false;
+        break;
 
-    case ON_AUTH_LOGOUT:
-      return combineObjectsAndReturn(state, { user: null });
+      case ON_AUTH_LOGOUT:
+        draft.user = null;
+        break;
 
-    default:
-      return state;
-  }
-};
+      default:
+        return draft;
+    }
+  });
 
 export default auth;

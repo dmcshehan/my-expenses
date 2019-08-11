@@ -9,6 +9,12 @@ import "./index.css";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
+
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { PersistGate } from "redux-persist/integration/react";
+
+//firebase
 import { reactReduxFirebase, getFirebase } from "react-redux-firebase";
 import firebase from "firebase/app";
 import "firebase/database";
@@ -48,9 +54,16 @@ const rootReducer = combineReducers({
 });
 const initialState = {};
 
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["auth"]
+};
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 //creation of redux store
 const store = createStore(
-  rootReducer,
+  persistedReducer,
   initialState,
   composeEnhancers(
     applyMiddleware(thunk.withExtraArgument(getFirebase)),
@@ -61,11 +74,15 @@ const store = createStore(
   )
 );
 
+let persistor = persistStore(store);
+
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <PersistGate loading={null} persistor={persistor}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PersistGate>
   </Provider>,
   document.getElementById("root")
 );

@@ -5,13 +5,9 @@ import "./App.css";
 import { Switch, Route } from "react-router";
 import { Redirect } from "react-router-dom";
 
-//firebase
-// import firebase from "firebase/app";
-// import "firebase/auth";
-
 //redux
 import { connect } from "react-redux";
-import { authUserAction } from "./store/actionCreators/auth";
+import { getCurrentUserAction } from "./store/actionCreators/auth";
 
 //Custom Modules
 import Dashboard from "./containers/Dashboard/Dashboard";
@@ -29,14 +25,12 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(user => {
-    //   if (user) {
-    //     this.props.onAuth(user);
-    //   }
-    // });
+    const { getCurrentUser } = this.props;
+    getCurrentUser();
   }
 
   render() {
+    const { isAuthenticated } = this.props;
     let routes = (
       <Switch>
         <Route exact path="/login" component={Auth} />
@@ -44,11 +38,9 @@ class App extends React.Component {
       </Switch>
     );
 
-    if (this.props.isAuthenticated) {
-      console.log("Authenticated");
+    if (isAuthenticated) {
       routes = (
         <Switch>
-          <Route exact path="/login" component={Auth} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/profile" component={Profile} />
           <Redirect to="/dashboard" />
@@ -56,7 +48,7 @@ class App extends React.Component {
       );
     }
 
-    return <Layout auth={this.props.isAuthenticated}>{routes}</Layout>;
+    return <Layout auth={isAuthenticated}>{routes}</Layout>;
   }
 }
 
@@ -68,7 +60,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: user => dispatch(authUserAction(user))
+    getCurrentUser: () => dispatch(getCurrentUserAction())
   };
 };
 
