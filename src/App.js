@@ -30,7 +30,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props;
+    const isAuthenticated = this.props.authedUser !== null;
     let routes = (
       <Switch>
         <Route exact path="/login" component={Auth} />
@@ -48,13 +48,13 @@ class App extends React.Component {
       );
     }
 
-    return <Layout auth={isAuthenticated}>{routes}</Layout>;
+    return <Layout>{routes}</Layout>;
   }
 }
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.user !== null
+    authedUser: state.auth.user
   };
 };
 

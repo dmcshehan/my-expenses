@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./header.module.scss";
 import PropTypes from "prop-types";
 
 //firebase
@@ -9,70 +10,21 @@ import "firebase/auth";
 import { connect } from "react-redux";
 import { logoutAction } from "../../store/actionCreators/auth";
 
-import { Layout, Menu } from "antd";
+import { Layout, Icon } from "antd";
 
 const { Header } = Layout;
 
 class MenuAppBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-      anchorEl: null,
-      drawerOpen: false
-    };
-
-    this.onLogout = this.onLogout.bind(this);
-    this.profileIconClickHandler = this.profileIconClickHandler.bind(this);
-    this.onLinkClick = this.onLinkClick.bind(this);
-    this.onMenuIconClickHandler = this.onMenuIconClickHandler.bind(this);
-  }
-
-  onLogout() {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        this.props.onLogout();
-      });
-  }
-
-  profileIconClickHandler(e) {
-    this.setState({
-      ...this.state,
-      open: !this.state.open,
-      anchorEl: e.currentTarget
-    });
-  }
-
-  onMenuIconClickHandler() {
-    this.setState({
-      ...this.state,
-      drawerOpen: !this.state.drawerOpen
-    });
-  }
-
-  onLinkClick() {
-    this.setState({
-      ...this.state,
-      open: false
-    });
-  }
-
   render() {
+    const { collapsed, onToggle } = this.props;
+
     return (
-      <Header>
-        <div className="logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={["2"]}
-          style={{ lineHeight: "64px" }}
-        >
-          <Menu.Item key="1">nav 1</Menu.Item>
-          <Menu.Item key="2">nav 2</Menu.Item>
-          <Menu.Item key="3">nav 3</Menu.Item>
-        </Menu>
+      <Header style={{ background: "#fff", padding: 0 }}>
+        <Icon
+          className={styles.trigger}
+          type={collapsed ? "menu-unfold" : "menu-fold"}
+          onClick={onToggle}
+        />
       </Header>
     );
   }
@@ -84,7 +36,7 @@ MenuAppBar.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    authUser: state.auth.user
+    authedUser: state.auth.user
   };
 };
 const mapDispatchToProps = dispatch => {
