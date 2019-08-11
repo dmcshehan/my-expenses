@@ -11,7 +11,7 @@ import { Redirect } from "react-router-dom";
 
 //redux
 import { connect } from "react-redux";
-import * as actionCreators from "./store/actionCreators/index";
+import { authUserAction } from "./store/actionCreators/auth";
 
 //Custom Modules
 import Dashboard from "./containers/Dashboard/Dashboard";
@@ -68,7 +68,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: user => dispatch(actionCreators.auth(user))
+    onAuth: user => dispatch(authUserAction(user))
   };
 };
 

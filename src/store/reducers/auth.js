@@ -1,4 +1,10 @@
-import * as actionTypes from "../actionTypes/index";
+import {
+  ON_AUTH_SUCCESS,
+  ON_AUTH_START,
+  ON_AUTH_FAIL,
+  ON_AUTH_LOGOUT
+} from "../actionTypes/auth.js";
+
 import combineObjectsAndReturn from "../../shared/combineObjectsAndReturn/combineObjectsAndReturn";
 
 const intialState = {
@@ -9,22 +15,22 @@ const intialState = {
 
 const auth = (state = intialState, action) => {
   switch (action.type) {
-    case actionTypes.ON_AUTH_META_SET_START:
+    case ON_AUTH_START:
       return combineObjectsAndReturn(state, { authenticating: true });
 
-    case actionTypes.ON_AUTH_META_SET_SUCCESS:
+    case ON_AUTH_SUCCESS:
       return combineObjectsAndReturn(state, {
         user: action.user,
         authenticating: false
       });
 
-    case actionTypes.ON_AUTH_META_SET_FAIL:
+    case ON_AUTH_FAIL:
       return combineObjectsAndReturn(state, {
         error: action.error,
         authenticating: false
       });
 
-    case actionTypes.ON_AUTH_LOGOUT:
+    case ON_AUTH_LOGOUT:
       return combineObjectsAndReturn(state, { user: null });
 
     default:

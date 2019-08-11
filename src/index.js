@@ -12,6 +12,7 @@ import thunk from "redux-thunk";
 import { reactReduxFirebase, getFirebase } from "react-redux-firebase";
 import firebase from "firebase/app";
 import "firebase/database";
+import "firebase/auth";
 
 //import all reducers from /reducers folder
 import addReducer from "./store/reducers/addExpense";

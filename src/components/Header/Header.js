@@ -7,7 +7,7 @@ import "firebase/auth";
 
 //redux
 import { connect } from "react-redux";
-import * as actionCreators from "../../store/actionCreators/index";
+import { logoutAction } from "../../store/actionCreators/auth";
 
 import { Layout, Menu } from "antd";
 
@@ -89,7 +89,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    onLogout: () => dispatch(actionCreators.logout())
+    onLogout: () => dispatch(logoutAction())
   };
 };
 
