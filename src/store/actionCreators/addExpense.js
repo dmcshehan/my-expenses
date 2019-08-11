@@ -1,7 +1,7 @@
 import * as actionTypes from "../actionTypes/index";
 import axios from "../../axios/axios-expenses";
 
-import * as actionCreators from "./fetchExpenses";
+import { fetchExpensesAction } from "./fetchExpenses";
 
 const addExpenseSuccess = id => {
   return {
@@ -23,19 +23,14 @@ const addExpenseFail = () => {
 };
 
 export const addExpense = expense => {
-  return (dispatch, getState) => {
+  return (dispatch, getState, getFirebase) => {
     const state = getState();
     const currentUserId = state.auth.user.uid;
 
-    axios
-      .post(`/${currentUserId}.json`, expense)
-      .then(response => {
-        dispatch(addExpenseStart());
-        dispatch(addExpenseSuccess(response.data.name));
-        dispatch(actionCreators.fetchExpenses(currentUserId));
-      })
-      .catch(error => {
-        dispatch(addExpenseFail(error));
-      });
+    const firebase = getFirebase();
+
+    firebase.push("expenses", { expense }).then(() => {
+      //
+    });
   };
 };

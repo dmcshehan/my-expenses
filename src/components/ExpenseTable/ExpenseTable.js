@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import moment from "moment";
 import produce from "immer";
 
-//import { fetchExpenses } from "../../store/actionCreators/fetchExpenses";
 import { deleteExpense } from "../../store/actionCreators/deleteExpense";
 import { updateExpense } from "../../store/actionCreators/updateExpense";
 
@@ -137,8 +136,6 @@ class ExpenseList extends Component {
         }))
       : [];
 
-    console.log(this.state);
-
     return <Table columns={columns} dataSource={data} />;
   }
 }
@@ -149,7 +146,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    // fetchExpenses: userId => dispatch(fetchExpenses(userId)),
     deleteExpense: key => dispatch(deleteExpense(key)),
     updateExpense: (key, newData) => dispatch(updateExpense(key, newData))
   };

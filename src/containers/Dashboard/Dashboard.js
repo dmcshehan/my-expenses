@@ -124,7 +124,6 @@ class Dashboard extends React.Component {
 }
 const mapDispatchToProps = dispatch => {
   return {
-    fetchExpenses: userId => dispatch(actionCreators.fetchExpenses(userId)),
     addExpense: expense => dispatch(actionCreators.addExpense(expense)),
     deleteExpense: key => dispatch(deleteExpense(key)),
     updateExpense: (id, newData) =>

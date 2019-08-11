@@ -1,7 +1,7 @@
 import * as actionTypes from "../actionTypes/index";
 import axios from "../../axios/axios-expenses";
 
-import * as actionCreators from "../actionCreators/fetchExpenses";
+import { fetchExpensesAction } from "./fetchExpenses";
 
 const deleteExpenseSuccess = () => {
   return {
@@ -18,7 +18,7 @@ export const deleteExpense = key => {
       .delete(`/${currentUserId}/${key}.json`)
       .then(response => {
         dispatch(deleteExpenseSuccess());
-        dispatch(actionCreators.fetchExpenses(currentUserId));
+        dispatch(fetchExpensesAction(currentUserId));
       })
       .catch(error => {
         console.log(error);

@@ -1,7 +1,4 @@
 import * as actionTypes from "../actionTypes/index";
-import axios from "../../axios/axios-expenses";
-
-import * as actionCreators from "./index";
 
 const fetchExpensesSuccess = expensesObject => {
   return {
@@ -22,28 +19,19 @@ const fetchExpensesStart = () => {
   };
 };
 
-export const fetchExpenses = () => {
-  return (dispatch, getState) => {
+export const fetchExpensesAction = () => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+
     const state = getState();
     const currentUserId = state.auth.user.uid;
 
-    axios
-      .get(`/${currentUserId}.json`)
-      .then(response => {
-        let allData = null;
-        if (response.data !== null) {
-          allData = Object.keys(response.data).map(uniqueId => ({
-            ...response.data[uniqueId],
-            key: uniqueId
-          }));
-        }
-        dispatch(fetchExpensesStart());
-        dispatch(fetchExpensesSuccess(allData));
-        dispatch(actionCreators.calculateAmountSpent(allData));
-      })
-      .catch(error => {
-        console.log("Error", error);
-        dispatch(fetchExpensesFail(error));
+    var ref = firebase.database().ref("expenses");
+    ref
+      .orderByChild("userId")
+      .equalTo(currentUserId)
+      .on("value", function(snapshot) {
+        console.log("Expenses", snapshot.val());
       });
   };
 };

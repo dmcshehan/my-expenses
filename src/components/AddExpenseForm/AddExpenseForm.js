@@ -9,110 +9,87 @@ import {
   InputNumber,
   DatePicker,
   Card,
+  Icon,
   Typography
 } from "antd";
 
 const { Text } = Typography;
 
-const AddExpenseForm = ({ onAdd, onUpdate, btn }) => {
-  const [values, setValues] = useState({
+class AddExpenseForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  state = {
     reason: "",
     amount: "",
     date: null
-  });
-
-  const updateValues = (e, type) => {
-    switch (type) {
-      case "reason":
-        setValues({ ...values, reason: e.target.value });
-        break;
-      case "amount":
-        setValues({ ...values, amount: e });
-        break;
-      case "date":
-        setValues({ ...values, date: e._d ? e._d : null });
-        break;
-      default:
-        setValues({ ...values });
-    }
   };
 
-  return (
-    <Card>
-      <form>
-        <Form.Item>
-          <Text strong style={{ fontSize: 16 }}>
-            Reason
-          </Text>
-          <Input
-            placeholder="Shopping"
-            size="large"
-            value={values.reason}
-            onChange={e => updateValues(e, "reason")}
-            name="reason"
-          />
-        </Form.Item>
-        <Form.Item>
-          <Text strong style={{ fontSize: 16 }}>
-            Amount
-          </Text>
-          <InputNumber
-            value={values.amount}
-            style={{ display: "block", width: "100%" }}
-            placeholder="Amount"
-            size="large"
-            formatter={value =>
-              `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            }
-            parser={value => value.replace(/\$\s?|(,*)/g, "")}
-            onChange={e => updateValues(e, "amount")}
-          />
-        </Form.Item>
-        <Form.Item>
-          <Text strong style={{ fontSize: 16 }}>
-            Expense Date
-          </Text>
-          <DatePicker
-            value={values.date ? moment(new Date(values.date)) : null}
-            style={{ display: "block", width: "100%" }}
-            size="large"
-            onChange={e => updateValues(e, "date")}
-          />
-        </Form.Item>
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log("Received values of form: ", values);
+      }
+    });
+  }
 
-        <Form.Item>
-          {!btn ? (
-            <Button
-              block
-              htmlType="submit"
-              type="primary"
-              onClick={e => {
-                onAdd(e, values);
-                setValues({
-                  reason: "",
-                  amount: "",
-                  date: null
-                });
-              }}
-            >
-              Add
-            </Button>
-          ) : (
-            <Button
-              block
-              htmlType="submit"
-              type="primary"
-              onClick={e => {
-                onUpdate(e);
-              }}
-            >
-              Update
-            </Button>
-          )}
-        </Form.Item>
-      </form>
-    </Card>
-  );
-};
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    return (
+      <Card>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Item>
+            {getFieldDecorator("reason", {
+              rules: [{ required: true, message: "Please enter the reason!" }]
+            })(<Input placeholder="Enter Reason" size="large" name="reason" />)}
+          </Form.Item>
 
-export default AddExpenseForm;
+          <Form.Item>
+            {getFieldDecorator("amount", {
+              rules: [{ required: true, message: "Please enter the amount!" }],
+              initialValue: 1000
+            })(
+              <InputNumber
+                style={{ display: "block", width: "100%" }}
+                placeholder="Amount"
+                size="large"
+                formatter={value =>
+                  `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+                parser={value => value.replace(/\$\s?|(,*)/g, "")}
+              />
+            )}
+          </Form.Item>
+
+          <Form.Item>
+            {getFieldDecorator("date", {
+              rules: [
+                {
+                  required: true,
+                  message: "Please select the Date!"
+                }
+              ]
+            })(
+              <DatePicker
+                style={{ display: "block", width: "100%" }}
+                size="large"
+              />
+            )}
+          </Form.Item>
+
+          <Form.Item>
+            <Button block htmlType="submit" type="primary">
+              Add Expense
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
+    );
+  }
+}
+
+export default Form.create({ name: "add_expense_form" })(AddExpenseForm);

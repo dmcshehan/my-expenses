@@ -1,6 +1,6 @@
 import * as actionTypes from "../actionTypes/index";
 import axios from "../../axios/axios-expenses";
-import { fetchExpenses } from "../actionCreators/fetchExpenses";
+import { fetchExpensesAction } from "../actionCreators/fetchExpenses";
 
 const updateExpenseSuccess = () => {
   return {
@@ -30,7 +30,7 @@ export const updateExpense = (key, newData) => {
       .put(`/${currentUserId}/${key}.json`, newData)
       .then(response => {
         dispatch(updateExpenseSuccess());
-        dispatch(fetchExpenses());
+        dispatch(fetchExpensesAction());
       })
       .catch(error => {
         console.log(error);

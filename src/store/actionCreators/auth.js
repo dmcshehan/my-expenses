@@ -4,6 +4,7 @@ import {
   ON_AUTH_FAIL,
   ON_AUTH_LOGOUT
 } from "../actionTypes/auth.js";
+import { fetchExpensesAction } from "./fetchExpenses";
 
 const onAuthSuccess = user => {
   return {
@@ -28,6 +29,12 @@ const onAuthFail = error => {
   };
 };
 
+const onLogout = () => {
+  return {
+    type: ON_AUTH_LOGOUT
+  };
+};
+
 export const authUserAction = ({ email, password }) => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
@@ -37,6 +44,7 @@ export const authUserAction = ({ email, password }) => {
       .then(resuts => {
         dispatch(onAuthStart());
         dispatch(onAuthSuccess(resuts.user.user));
+        fetchExpensesAction();
       })
       .catch(error => {
         dispatch(onAuthFail(error));
@@ -59,9 +67,17 @@ export const getCurrentUserAction = () => {
 };
 
 export const logoutAction = () => {
-  return dispatch => {
-    dispatch({
-      type: ON_AUTH_LOGOUT
-    });
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+
+    firebase
+      .auth()
+      .signOut()
+      .then(function() {
+        dispatch(onLogout());
+      })
+      .catch(function(error) {
+        // An error happened.
+      });
   };
 };

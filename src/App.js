@@ -8,6 +8,7 @@ import { Redirect } from "react-router-dom";
 //redux
 import { connect } from "react-redux";
 import { getCurrentUserAction } from "./store/actionCreators/auth";
+import { fetchExpensesAction } from "./store/actionCreators/fetchExpenses";
 
 //Custom Modules
 import Dashboard from "./containers/Dashboard/Dashboard";
@@ -25,8 +26,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { getCurrentUser } = this.props;
+    const { getCurrentUser, fetchExpenses } = this.props;
     getCurrentUser();
+    fetchExpenses();
   }
 
   render() {
@@ -60,7 +62,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCurrentUser: () => dispatch(getCurrentUserAction())
+    getCurrentUser: () => dispatch(getCurrentUserAction()),
+    fetchExpenses: () => dispatch(fetchExpensesAction())
   };
 };
 
