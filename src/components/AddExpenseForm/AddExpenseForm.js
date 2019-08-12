@@ -2,16 +2,7 @@ import React from "react";
 import { addExpenseAction } from "../../store/actionCreators/addExpense";
 import { connect } from "react-redux";
 //antd
-import {
-  Form,
-  Input,
-  Button,
-  InputNumber,
-  DatePicker,
-  Card,
-  Icon,
-  Typography
-} from "antd";
+import { Form, Input, Button, InputNumber, DatePicker, Card } from "antd";
 
 class AddExpenseForm extends React.Component {
   constructor(props) {

@@ -3,9 +3,6 @@ import {
   ON_EXPENSES_UPDATE_INIT
 } from "../actionTypes/expense";
 
-import axios from "../../axios/axios-expenses";
-import { fetchExpensesAction } from "../actionCreators/fetchExpenses";
-
 const updateExpenseSuccess = () => {
   return {
     type: ON_EXPENSES_UPDATE_SUCCESS
@@ -25,19 +22,14 @@ export const updateInit = () => {
 };
 
 export const updateExpense = (key, newData) => {
-  return (dispatch, getState) => {
+  return (dispatch, getState, getFirebase) => {
     const state = getState();
     const currentUserId = state.auth.user.uid;
 
-    console.log(newData);
-    axios
-      .put(`/${currentUserId}/${key}.json`, newData)
-      .then(response => {
-        dispatch(updateExpenseSuccess());
-        dispatch(fetchExpensesAction());
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    const firebase = getFirebase();
+    firebase
+      .database()
+      .ref(`expenses/${key}`)
+      .update(newData);
   };
 };

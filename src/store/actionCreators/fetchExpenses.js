@@ -37,6 +37,8 @@ export const fetchExpensesAction = () => {
       .orderByChild("userId")
       .equalTo(currentUserId)
       .on("value", function(snapshot) {
+        //everytime there is a change, this will fire
+        console.log("fetchExpensesAction[fired]");
         const expensesObj = snapshot.val();
         let expenseArray;
         if (snapshot.val() !== null) {

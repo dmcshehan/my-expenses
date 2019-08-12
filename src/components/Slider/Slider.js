@@ -5,8 +5,7 @@ import { logoutAction } from "../../store/actionCreators/auth";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 
-import { Layout, Menu, Icon, Button } from "antd";
-import { dispatch } from "rxjs/internal/observable/range";
+import { Layout, Menu, Icon } from "antd";
 
 const { Sider } = Layout;
 

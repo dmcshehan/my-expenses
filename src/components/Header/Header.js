@@ -2,10 +2,6 @@ import React from "react";
 import styles from "./header.module.scss";
 import PropTypes from "prop-types";
 
-//firebase
-import firebase from "firebase/app";
-import "firebase/auth";
-
 //redux
 import { connect } from "react-redux";
 import { logoutAction } from "../../store/actionCreators/auth";

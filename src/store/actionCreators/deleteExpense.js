@@ -10,18 +10,14 @@ const deleteExpenseSuccess = () => {
 };
 
 export const deleteExpense = key => {
-  return (dispatch, getState) => {
+  return (dispatch, getState, getFirebase) => {
     const state = getState();
     const currentUserId = state.auth.user.uid;
+    const firebase = getFirebase();
 
-    axios
-      .delete(`/${currentUserId}/${key}.json`)
-      .then(response => {
-        dispatch(deleteExpenseSuccess());
-        dispatch(fetchExpensesAction(currentUserId));
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    var adaRef = firebase.database().ref(`expenses/${key}`);
+    adaRef.remove().catch(function(error) {
+      console.log("Remove failed: " + error.message);
+    });
   };
 };
