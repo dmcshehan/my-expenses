@@ -136,12 +136,12 @@ class ExpenseList extends Component {
         }))
       : [];
 
-    return <Table columns={columns} dataSource={data} />;
+    return <Table columns={columns} dataSource={[]} />;
   }
 }
 
 const mapStateToProps = state => ({
-  expenses: state.fetch.expenses
+  expenses: state.expense.expenses
 });
 
 const mapDispatchToProps = dispatch => {

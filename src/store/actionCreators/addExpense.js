@@ -1,36 +1,46 @@
-import * as actionTypes from "../actionTypes/index";
-import axios from "../../axios/axios-expenses";
+import {
+  ON_EXPENSE_ADD_SUCCESS,
+  ON_EXPENSE_ADD_START,
+  ON_EXPENSE_ADD_FAIL
+} from "../actionTypes/expense";
 
 import { fetchExpensesAction } from "./fetchExpenses";
 
 const addExpenseSuccess = id => {
   return {
-    type: actionTypes.ON_EXPENSE_ADD_SUCCESS,
+    type: ON_EXPENSE_ADD_SUCCESS,
     id: id
   };
 };
 
 const addExpenseStart = () => {
   return {
-    type: actionTypes.ON_EXPENSE_ADD_START
+    type: ON_EXPENSE_ADD_START
   };
 };
 
 const addExpenseFail = () => {
   return {
-    type: actionTypes.ON_EXPENSE_ADD_FAIL
+    type: ON_EXPENSE_ADD_FAIL
   };
 };
 
-export const addExpense = expense => {
+export const addExpenseAction = expenseObj => {
   return (dispatch, getState, getFirebase) => {
     const state = getState();
     const currentUserId = state.auth.user.uid;
 
-    const firebase = getFirebase();
+    const storingExpenseObj = {
+      ...expenseObj,
+      userId: currentUserId,
+      date: new Date(expenseObj.date._d).getTime()
+    };
 
-    firebase.push("expenses", { expense }).then(() => {
-      //
+    console.log(storingExpenseObj);
+
+    const firebase = getFirebase();
+    firebase.push("expenses", storingExpenseObj).then(result => {
+      console.log("Added", result);
     });
   };
 };

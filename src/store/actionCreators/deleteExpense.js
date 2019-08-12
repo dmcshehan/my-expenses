@@ -1,11 +1,11 @@
-import * as actionTypes from "../actionTypes/index";
+import { ON_EXPENSES_DELETE_SUCCESS } from "../actionTypes/expense";
 import axios from "../../axios/axios-expenses";
 
 import { fetchExpensesAction } from "./fetchExpenses";
 
 const deleteExpenseSuccess = () => {
   return {
-    type: actionTypes.ON_EXPENSES_DELETE_SUCCESS
+    type: ON_EXPENSES_DELETE_SUCCESS
   };
 };
 

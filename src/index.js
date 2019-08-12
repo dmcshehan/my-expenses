@@ -21,12 +21,8 @@ import "firebase/database";
 import "firebase/auth";
 
 //import all reducers from /reducers folder
-import addReducer from "./store/reducers/addExpense";
+import expenseReducer from "./store/reducers/expense";
 import authReducer from "./store/reducers/auth";
-import updateReducer from "./store/reducers/updateExpense";
-import deleteReducer from "./store/reducers/deleteExpense";
-import fetchReducer from "./store/reducers/fetchExpenses";
-import calculateReducer from "./store/reducers/calculateExpenses";
 
 //Redux browser extensition configuration
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -45,11 +41,7 @@ firebase.initializeApp(firebaseConfig);
 
 //combining all reducers to be one reducer
 const rootReducer = combineReducers({
-  add: addReducer,
-  update: updateReducer,
-  delete: deleteReducer,
-  fetch: fetchReducer,
-  calculate: calculateReducer,
+  expense: expenseReducer,
   auth: authReducer
 });
 const initialState = {};

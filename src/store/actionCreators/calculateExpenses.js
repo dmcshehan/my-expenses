@@ -1,30 +1,26 @@
-import * as actionTypes from "../actionTypes/index";
+import {
+  CALCULATE_TOTAL_SPENT_SUCCESS,
+  CALCULATE_TOTAL_SPENT_START,
+  BASE_CURRENCY_UPDATE_SUCCESS
+} from "../actionTypes/expense";
+
 import axios from "../../axios/axios-expenses";
-// import axiosCurrency from "axios";
 
 const calculatedTotalSpentSuccess = totalSpent => {
   return {
-    type: actionTypes.CALCULATE_TOTAL_SPENT_SUCCESS,
+    type: CALCULATE_TOTAL_SPENT_SUCCESS,
     totalSpent: totalSpent
   };
 };
 
 const calculatedTotalSpentStart = () => {
   return {
-    type: actionTypes.CALCULATE_TOTAL_SPENT_START
+    type: CALCULATE_TOTAL_SPENT_START
   };
 };
 
 export const calculateAmountSpent = allExpenses => {
   return (dispatch, getState) => {
-    //const state = getState();
-
-    //getting the base currency from the current loggedin user
-
-    //const baseCurrency = state.auth.user.baseCurrency;
-
-    //maps over all expense objects and push cost into an array
-
     if (allExpenses.length !== 0) {
       let allExpensList = [];
 
@@ -45,7 +41,7 @@ export const calculateAmountSpent = allExpenses => {
 
 const onBaseCurrencyUpdateSuccess = newBaseCurrency => {
   return {
-    type: actionTypes.BASE_CURRENCY_UPDATE_SUCCESS,
+    type: BASE_CURRENCY_UPDATE_SUCCESS,
     newBaseCurrency: newBaseCurrency
   };
 };

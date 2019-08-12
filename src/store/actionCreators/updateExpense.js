@@ -1,16 +1,20 @@
-import * as actionTypes from "../actionTypes/index";
+import {
+  ON_EXPENSES_UPDATE_SUCCESS,
+  ON_EXPENSES_UPDATE_INIT
+} from "../actionTypes/expense";
+
 import axios from "../../axios/axios-expenses";
 import { fetchExpensesAction } from "../actionCreators/fetchExpenses";
 
 const updateExpenseSuccess = () => {
   return {
-    type: actionTypes.ON_EXPENSES_UPDATE_SUCCESS
+    type: ON_EXPENSES_UPDATE_SUCCESS
   };
 };
 
 const initializeUpdate = () => {
   return {
-    type: actionTypes.ON_EXPENSES_UPDATE_INIT
+    type: ON_EXPENSES_UPDATE_INIT
   };
 };
 

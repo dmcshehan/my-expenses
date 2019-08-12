@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-//import { addExpense } from "../../store/actionCreators/addExpense";
-import moment from "moment";
+import React from "react";
+import { addExpenseAction } from "../../store/actionCreators/addExpense";
+import { connect } from "react-redux";
 //antd
 import {
   Form,
@@ -12,8 +12,6 @@ import {
   Icon,
   Typography
 } from "antd";
-
-const { Text } = Typography;
 
 class AddExpenseForm extends React.Component {
   constructor(props) {
@@ -30,9 +28,10 @@ class AddExpenseForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    const { addExpense } = this.props;
+    this.props.form.validateFields((err, expenseObj) => {
       if (!err) {
-        console.log("Received values of form: ", values);
+        addExpense(expenseObj);
       }
     });
   }
@@ -92,4 +91,11 @@ class AddExpenseForm extends React.Component {
   }
 }
 
-export default Form.create({ name: "add_expense_form" })(AddExpenseForm);
+const mapDispatchToProps = dispatch => ({
+  addExpense: expenseObj => dispatch(addExpenseAction(expenseObj))
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Form.create({ name: "add_expense_form" })(AddExpenseForm));

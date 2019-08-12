@@ -1,21 +1,27 @@
-import * as actionTypes from "../actionTypes/index";
+import {
+  ON_EXPENSES_FETCH_SUCCESS,
+  ON_EXPENSES_FETCH_FAIL,
+  ON_EXPENSES_FETCH_START
+} from "../actionTypes/expense";
 
-const fetchExpensesSuccess = expensesObject => {
+const fetchExpensesSuccess = allExpenses => {
   return {
-    type: actionTypes.ON_EXPENSES_FETCH_SUCCESS,
-    allExpenses: expensesObject
+    type: ON_EXPENSES_FETCH_SUCCESS,
+    payload: {
+      allExpenses
+    }
   };
 };
 
 const fetchExpensesFail = () => {
   return {
-    type: actionTypes.ON_EXPENSES_FETCH_FAIL
+    type: ON_EXPENSES_FETCH_FAIL
   };
 };
 
 const fetchExpensesStart = () => {
   return {
-    type: actionTypes.ON_EXPENSES_FETCH_START
+    type: ON_EXPENSES_FETCH_START
   };
 };
 
@@ -31,7 +37,17 @@ export const fetchExpensesAction = () => {
       .orderByChild("userId")
       .equalTo(currentUserId)
       .on("value", function(snapshot) {
-        console.log("Expenses", snapshot.val());
+        const expensesObj = snapshot.val();
+        let expenseArray;
+        if (snapshot.val() !== null) {
+          expenseArray = Object.keys(expensesObj).map(expenseId => {
+            return { ...expensesObj[expenseId], id: expenseId };
+          });
+        } else {
+          expenseArray = null;
+        }
+
+        dispatch(fetchExpensesSuccess(expenseArray));
       });
   };
 };

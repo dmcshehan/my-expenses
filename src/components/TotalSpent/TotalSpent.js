@@ -2,7 +2,7 @@ import React from "react";
 
 //redux
 import { connect } from "react-redux";
-import * as actionCreators from "../../store/actionCreators/index";
+import { updateBaseCurrency } from "../../store/actionCreators/calculateExpenses";
 
 //firebase
 import firebase from "firebase/app";
@@ -61,15 +61,15 @@ class TotalSpent extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    amountSpent: state.calculate.totalSpent,
-    baseCurrency: state.auth.user.baseCurrency
+    amountSpent: state.expense.totalSpent,
+    baseCurrency: state.expense.baseCurrency
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onBaseCurrencyUpdate: (newCurr, uid) =>
-      dispatch(actionCreators.updateBaseCurrency(newCurr, uid))
+      dispatch(updateBaseCurrency(newCurr, uid))
   };
 };
 
