@@ -1,4 +1,5 @@
 import { ON_FETCH_EXPENSES_SUCCESS } from "../actionTypes/expense";
+import { calculateAmountSpent } from "./calculateExpenses";
 
 const fetchExpensesSuccess = allExpenses => {
   return {
@@ -38,6 +39,7 @@ export const fetchExpensesAction = () => {
           }
 
           dispatch(fetchExpensesSuccess(expenseArray));
+          dispatch(calculateAmountSpent(expenseArray));
         });
     }
   };

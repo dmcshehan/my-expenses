@@ -1,6 +1,5 @@
 import {
   CALCULATE_TOTAL_SPENT_SUCCESS,
-  CALCULATE_TOTAL_SPENT_START,
   BASE_CURRENCY_UPDATE_SUCCESS
 } from "../actionTypes/expense";
 
@@ -9,32 +8,22 @@ import axios from "../../axios/axios-expenses";
 const calculatedTotalSpentSuccess = totalSpent => {
   return {
     type: CALCULATE_TOTAL_SPENT_SUCCESS,
-    totalSpent: totalSpent
-  };
-};
-
-const calculatedTotalSpentStart = () => {
-  return {
-    type: CALCULATE_TOTAL_SPENT_START
+    payload: {
+      totalSpent
+    }
   };
 };
 
 export const calculateAmountSpent = allExpenses => {
   return (dispatch, getState) => {
     if (allExpenses.length !== 0) {
-      let allExpensList = [];
-
-      Object.keys(allExpenses).forEach(expenseId => {
-        allExpensList.push(allExpenses[expenseId].cost);
+      const allExpArray = [];
+      allExpenses.forEach(expObj => {
+        allExpArray.push(expObj.amount);
       });
 
-      let totalCost = allExpensList.reduce((accumilator, currentVal) => {
-        return accumilator + +currentVal;
-      }, 0);
-
-      //calculates the total spent in base currency
-      dispatch(calculatedTotalSpentStart());
-      dispatch(calculatedTotalSpentSuccess(totalCost));
+      const totalSpent = allExpArray.reduce((a, b) => a + b, 0);
+      dispatch(calculatedTotalSpentSuccess(totalSpent));
     }
   };
 };

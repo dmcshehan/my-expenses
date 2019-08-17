@@ -8,14 +8,16 @@ import {
   ON_FETCH_EXPENSES_SUCCESS,
   ON_FETCH_EXPENSES_FAIL,
   ON_UPDATE_EXPENSES_SUCCESS,
-  ON_UPDATE_EXPENSES_FAIL
+  ON_UPDATE_EXPENSES_FAIL,
+  CALCULATE_TOTAL_SPENT_SUCCESS
 } from "../actionTypes/expense";
 
 const intialState = {
   expenses: null,
   fetching: false,
   error: null,
-  loading: false
+  loading: false,
+  totalSpent: null
 };
 
 const expense = (state = intialState, action) =>
@@ -51,6 +53,10 @@ const expense = (state = intialState, action) =>
 
       case ON_UPDATE_EXPENSES_FAIL:
         draft.error = action.payload.error;
+        break;
+
+      case CALCULATE_TOTAL_SPENT_SUCCESS:
+        draft.totalSpent = action.payload.totalSpent;
         break;
 
       default:
