@@ -1,23 +1,34 @@
-import { ON_EXPENSES_DELETE_SUCCESS } from "../actionTypes/expense";
-import axios from "../../axios/axios-expenses";
+import {
+  ON_DELETE_EXPENSES_SUCCESS,
+  ON_DELETE_EXPENSES_FAIL
+} from "../actionTypes/expense";
 
-import { fetchExpensesAction } from "./fetchExpenses";
-
-const deleteExpenseSuccess = () => {
+const onDeleteExpenseSuccess = () => {
   return {
-    type: ON_EXPENSES_DELETE_SUCCESS
+    type: ON_DELETE_EXPENSES_SUCCESS
+  };
+};
+const onDeleteExpenseFail = error => {
+  return {
+    type: ON_DELETE_EXPENSES_FAIL,
+    payload: {
+      error
+    }
   };
 };
 
-export const deleteExpense = key => {
+export const deleteExpenseAction = key => {
   return (dispatch, getState, getFirebase) => {
-    const state = getState();
-    const currentUserId = state.auth.user.uid;
     const firebase = getFirebase();
 
     var adaRef = firebase.database().ref(`expenses/${key}`);
-    adaRef.remove().catch(function(error) {
-      console.log("Remove failed: " + error.message);
-    });
+    adaRef
+      .remove()
+      .then(() => {
+        dispatch(onDeleteExpenseSuccess());
+      })
+      .catch(function(error) {
+        dispatch(onDeleteExpenseFail(error));
+      });
   };
 };

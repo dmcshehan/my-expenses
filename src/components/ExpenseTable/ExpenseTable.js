@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
-import produce from "immer";
 
-import { deleteExpense } from "../../store/actionCreators/deleteExpense";
-import { updateExpense } from "../../store/actionCreators/updateExpense";
+import { deleteExpenseAction } from "../../store/actionCreators/deleteExpense";
+import { updateExpenseAction } from "../../store/actionCreators/updateExpense";
 
 import { Table, Button, Input, InputNumber, DatePicker, Form } from "antd";
 const ButtonGroup = Button.Group;
@@ -13,7 +12,7 @@ class ExpenseList extends Component {
   constructor(props) {
     super(props);
 
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   state = {
@@ -21,13 +20,24 @@ class ExpenseList extends Component {
     expObj: null
   };
 
-  handleSubmit(e) {
-    e.preventDefault();
-    console.log("submitted");
+  handleUpdate(key) {
+    const { updateExpense } = this.props;
+
+    this.props.form.validateFields((err, expenseObj) => {
+      if (!err) {
+        const newData = {
+          ...expenseObj,
+          date: new Date(expenseObj.date._d).getTime()
+        };
+
+        updateExpense(key, newData);
+        this.setState({ keyBeignEdited: null });
+      }
+    });
   }
 
   render() {
-    const { deleteExpense, updateExpense, expenses } = this.props;
+    const { deleteExpense, expenses } = this.props;
 
     const { getFieldDecorator } = this.props.form;
 
@@ -104,13 +114,27 @@ class ExpenseList extends Component {
         key: "actions",
         render: (text, expense) =>
           expense.key === this.state.keyBeignEdited ? (
-            <Button icon="check" type="primary" htmlType="submit" />
+            <Button
+              icon="check"
+              type="primary"
+              onClick={() => {
+                this.handleUpdate(expense.key);
+              }}
+            />
           ) : (
             <ButtonGroup>
               <Button
                 icon="delete"
                 type="danger"
-                onClick={() => deleteExpense(expense.key)}
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      `Are you sure you want to delete ${expense.reason}`
+                    )
+                  ) {
+                    deleteExpense(expense.key);
+                  }
+                }}
               />
               <Button
                 icon="edit"
@@ -136,11 +160,7 @@ class ExpenseList extends Component {
         }))
       : [];
 
-    return (
-      <Form onSubmit={this.handleSubmit}>
-        <Table columns={columns} dataSource={data} />
-      </Form>
-    );
+    return <Table columns={columns} dataSource={data} />;
   }
 }
 
@@ -150,8 +170,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteExpense: key => dispatch(deleteExpense(key)),
-    updateExpense: (key, newData) => dispatch(updateExpense(key, newData))
+    deleteExpense: key => dispatch(deleteExpenseAction(key)),
+    updateExpense: (key, newData) => dispatch(updateExpenseAction(key, newData))
   };
 };
 

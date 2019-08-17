@@ -1,6 +1,5 @@
 import {
   ON_AUTH_SUCCESS,
-  ON_AUTH_START,
   ON_AUTH_FAIL,
   ON_AUTH_LOGOUT
 } from "../actionTypes/auth.js";
@@ -12,11 +11,6 @@ const onAuthSuccess = user => {
     payload: {
       user
     }
-  };
-};
-const onAuthStart = () => {
-  return {
-    type: ON_AUTH_START
   };
 };
 
@@ -42,7 +36,6 @@ export const authUserAction = ({ email, password }) => {
     firebase
       .login({ email, password })
       .then(resuts => {
-        dispatch(onAuthStart());
         dispatch(onAuthSuccess(resuts.user.user));
         fetchExpensesAction();
       })

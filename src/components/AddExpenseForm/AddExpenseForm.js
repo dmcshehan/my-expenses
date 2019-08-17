@@ -23,6 +23,7 @@ class AddExpenseForm extends React.Component {
     this.props.form.validateFields((err, expenseObj) => {
       if (!err) {
         addExpense(expenseObj);
+        this.props.form.resetFields();
       }
     });
   }
@@ -41,7 +42,7 @@ class AddExpenseForm extends React.Component {
           <Form.Item>
             {getFieldDecorator("amount", {
               rules: [{ required: true, message: "Please enter the amount!" }],
-              initialValue: 1000
+              initialValue: 0
             })(
               <InputNumber
                 style={{ display: "block", width: "100%" }}

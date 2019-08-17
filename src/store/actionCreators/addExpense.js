@@ -1,27 +1,23 @@
 import {
-  ON_EXPENSE_ADD_SUCCESS,
-  ON_EXPENSE_ADD_START,
-  ON_EXPENSE_ADD_FAIL
+  ON_ADD_EXPENSE_SUCCESS,
+  ON_ADD_EXPENSE_FAIL
 } from "../actionTypes/expense";
 
-import { fetchExpensesAction } from "./fetchExpenses";
+// import { fetchExpensesAction } from "./fetchExpenses";
 
-const addExpenseSuccess = id => {
+const onAddExpenseSuccess = id => {
   return {
-    type: ON_EXPENSE_ADD_SUCCESS,
+    type: ON_ADD_EXPENSE_SUCCESS,
     id: id
   };
 };
 
-const addExpenseStart = () => {
+const onAddExpenseFail = error => {
   return {
-    type: ON_EXPENSE_ADD_START
-  };
-};
-
-const addExpenseFail = () => {
-  return {
-    type: ON_EXPENSE_ADD_FAIL
+    type: ON_ADD_EXPENSE_FAIL,
+    payload: {
+      error
+    }
   };
 };
 
@@ -36,11 +32,16 @@ export const addExpenseAction = expenseObj => {
       date: new Date(expenseObj.date._d).getTime()
     };
 
-    console.log(storingExpenseObj);
-
     const firebase = getFirebase();
-    firebase.push("expenses", storingExpenseObj).then(result => {
-      console.log("Added", result);
-    });
+
+    firebase
+      .push("expenses", storingExpenseObj)
+      .then(result => {
+        console.log("Added", result);
+        dispatch(onAddExpenseSuccess());
+      })
+      .catch(error => {
+        dispatch(onAddExpenseFail(error));
+      });
   };
 };

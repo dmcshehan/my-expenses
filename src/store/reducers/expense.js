@@ -1,68 +1,56 @@
 import produce from "immer";
 
 import {
-  ON_EXPENSE_ADD_START,
-  ON_EXPENSE_ADD_SUCCESS,
-  ON_EXPENSE_ADD_FAIL,
-  ON_EXPENSES_DELETE_START,
-  ON_EXPENSES_DELETE_SUCCESS,
-  ON_EXPENSES_DELETE_FAIL,
-  ON_EXPENSES_FETCH_START,
-  ON_EXPENSES_FETCH_SUCCESS,
-  ON_EXPENSES_FETCH_FAIL,
-  ON_EXPENSES_UPDATE_START,
-  ON_EXPENSES_UPDATE_SUCCESS,
-  ON_EXPENSES_UPDATE_FAIL,
-  ON_EXPENSES_UPDATE_INIT
+  ON_ADD_EXPENSE_SUCCESS,
+  ON_ADD_EXPENSE_FAIL,
+  ON_DELETE_EXPENSES_SUCCESS,
+  ON_DELETE_EXPENSES_FAIL,
+  ON_FETCH_EXPENSES_SUCCESS,
+  ON_FETCH_EXPENSES_FAIL,
+  ON_UPDATE_EXPENSES_SUCCESS,
+  ON_UPDATE_EXPENSES_FAIL
 } from "../actionTypes/expense";
 
 const intialState = {
   expenses: null,
   fetching: false,
-  error: null
+  error: null,
+  loading: false
 };
 
 const expense = (state = intialState, action) =>
   produce(state, draft => {
     switch (action.type) {
-      case ON_EXPENSE_ADD_START:
+      case ON_ADD_EXPENSE_SUCCESS:
+        draft.loading = false;
         break;
 
-      case ON_EXPENSE_ADD_SUCCESS:
+      case ON_ADD_EXPENSE_FAIL:
+        draft.error = action.payload.error;
         break;
 
-      case ON_EXPENSE_ADD_FAIL:
+      case ON_DELETE_EXPENSES_SUCCESS:
+        draft.loading = false;
         break;
 
-      case ON_EXPENSES_DELETE_START:
+      case ON_DELETE_EXPENSES_FAIL:
+        draft.error = action.payload.error;
         break;
 
-      case ON_EXPENSES_DELETE_SUCCESS:
-        break;
-
-      case ON_EXPENSES_DELETE_FAIL:
-        break;
-
-      case ON_EXPENSES_FETCH_START:
-        break;
-
-      case ON_EXPENSES_FETCH_SUCCESS:
+      case ON_FETCH_EXPENSES_SUCCESS:
         draft.expenses = action.payload.allExpenses;
         break;
 
-      case ON_EXPENSES_FETCH_FAIL:
+      case ON_FETCH_EXPENSES_FAIL:
+        draft.error = action.payload.error;
         break;
 
-      case ON_EXPENSES_UPDATE_START:
+      case ON_UPDATE_EXPENSES_SUCCESS:
+        draft.loading = false;
         break;
 
-      case ON_EXPENSES_UPDATE_SUCCESS:
-        break;
-
-      case ON_EXPENSES_UPDATE_FAIL:
-        break;
-
-      case ON_EXPENSES_UPDATE_INIT:
+      case ON_UPDATE_EXPENSES_FAIL:
+        draft.error = action.payload.error;
         break;
 
       default:

@@ -1,35 +1,35 @@
 import {
-  ON_EXPENSES_UPDATE_SUCCESS,
-  ON_EXPENSES_UPDATE_INIT
+  ON_UPDATE_EXPENSES_SUCCESS,
+  ON_UPDATE_EXPENSES_FAIL
 } from "../actionTypes/expense";
 
-const updateExpenseSuccess = () => {
+const onUpdateExpenseSuccess = () => {
   return {
-    type: ON_EXPENSES_UPDATE_SUCCESS
+    type: ON_UPDATE_EXPENSES_SUCCESS
   };
 };
 
-const initializeUpdate = () => {
+const onUpdateExpenseFail = error => {
   return {
-    type: ON_EXPENSES_UPDATE_INIT
+    type: ON_UPDATE_EXPENSES_FAIL,
+    payload: {
+      error
+    }
   };
 };
 
-export const updateInit = () => {
-  return dispatch => {
-    dispatch(initializeUpdate());
-  };
-};
-
-export const updateExpense = (key, newData) => {
+export const updateExpenseAction = (key, newData) => {
   return (dispatch, getState, getFirebase) => {
-    const state = getState();
-    const currentUserId = state.auth.user.uid;
-
     const firebase = getFirebase();
     firebase
       .database()
       .ref(`expenses/${key}`)
-      .update(newData);
+      .update(newData)
+      .then(() => {
+        dispatch(onUpdateExpenseSuccess());
+      })
+      .catch(error => {
+        dispatch(onUpdateExpenseFail(error));
+      });
   };
 };

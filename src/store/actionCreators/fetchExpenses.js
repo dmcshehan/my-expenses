@@ -1,55 +1,44 @@
-import {
-  ON_EXPENSES_FETCH_SUCCESS,
-  ON_EXPENSES_FETCH_FAIL,
-  ON_EXPENSES_FETCH_START
-} from "../actionTypes/expense";
+import { ON_FETCH_EXPENSES_SUCCESS } from "../actionTypes/expense";
 
 const fetchExpensesSuccess = allExpenses => {
   return {
-    type: ON_EXPENSES_FETCH_SUCCESS,
+    type: ON_FETCH_EXPENSES_SUCCESS,
     payload: {
       allExpenses
     }
   };
 };
 
-const fetchExpensesFail = () => {
-  return {
-    type: ON_EXPENSES_FETCH_FAIL
-  };
-};
-
-const fetchExpensesStart = () => {
-  return {
-    type: ON_EXPENSES_FETCH_START
-  };
-};
-
+//fetch expenses fail is not implemented
 export const fetchExpensesAction = () => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
 
     const state = getState();
-    const currentUserId = state.auth.user.uid;
+    const currentUser = state.auth.user;
 
-    var ref = firebase.database().ref("expenses");
-    ref
-      .orderByChild("userId")
-      .equalTo(currentUserId)
-      .on("value", function(snapshot) {
-        //everytime there is a change, this will fire
-        console.log("fetchExpensesAction[fired]");
-        const expensesObj = snapshot.val();
-        let expenseArray;
-        if (snapshot.val() !== null) {
-          expenseArray = Object.keys(expensesObj).map(expenseId => {
-            return { ...expensesObj[expenseId], id: expenseId };
-          });
-        } else {
-          expenseArray = null;
-        }
+    if (currentUser) {
+      const currentUserId = state.auth.user.uid;
 
-        dispatch(fetchExpensesSuccess(expenseArray));
-      });
+      var ref = firebase.database().ref("expenses");
+      ref
+        .orderByChild("userId")
+        .equalTo(currentUserId)
+        .on("value", function(snapshot) {
+          //everytime there is a change, this will fire
+
+          const expensesObj = snapshot.val();
+          let expenseArray;
+          if (snapshot.val() !== null) {
+            expenseArray = Object.keys(expensesObj).map(expenseId => {
+              return { ...expensesObj[expenseId], id: expenseId };
+            });
+          } else {
+            expenseArray = null;
+          }
+
+          dispatch(fetchExpensesSuccess(expenseArray));
+        });
+    }
   };
 };
