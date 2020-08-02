@@ -1,48 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
-import App from "./App";
-
-//importing global CSS that effect the full project
-import "./index.css";
-
-//import all reducers from /reducers folder
-import addReducer from "./store/reducers/addExpense";
-import authReducer from "./store/reducers/auth";
-import updateReducer from "./store/reducers/updateExpense";
-import deleteReducer from "./store/reducers/deleteExpense";
-import fetchReducer from "./store/reducers/fetchExpenses";
-import calculateReducer from "./store/reducers/calculateExpenses";
-
-//Redux related imports
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
-import thunk from "redux-thunk";
 
-//Redux browser extensition configuration
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+import App from "./App/App";
 
-//combining all reducers to be one reducer
-const rootReducer = combineReducers({
-  add: addReducer,
-  update: updateReducer,
-  delete: deleteReducer,
-  fetch: fetchReducer,
-  calculate: calculateReducer,
-  auth: authReducer
-});
+import { store, persistor } from "./store/index";
 
-//creation of redux store
-const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
-);
+import "./index.scss";
+import "./index.less";
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <PersistGate loading={null} persistor={persistor}>
       <App />
-    </BrowserRouter>
+    </PersistGate>
   </Provider>,
   document.getElementById("root")
 );
