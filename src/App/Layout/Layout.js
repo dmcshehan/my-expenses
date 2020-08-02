@@ -4,12 +4,13 @@ import RightLayout from "../RightLayout/RightLayout";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 
+import Sider from "../Sider/Sider";
+
 export default function LayoutComp({ children }) {
   return (
     <Layout>
-      <Header />
+      <Sider />
       <RightLayout>{children}</RightLayout>
-      <Footer />
     </Layout>
   );
 }

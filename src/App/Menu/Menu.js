@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Menu } from "antd";
 const { Item } = Menu;
 
@@ -10,8 +11,9 @@ export default function MenuComp() {
       defaultSelectedKeys={[""]}
       style={{ minHeight: "calc(100vh - 136px)" }}
     >
-      <Item key='1'>nav 1</Item>
-      <Item key='2'>nav 2</Item>
+      <Item key='1'>
+        <Link to='/dashboard'>Dashboard</Link>
+      </Item>
     </Menu>
   );
 }

@@ -2,13 +2,15 @@ import React from "react";
 import { Layout } from "antd";
 
 import Content from "../Content/Content";
-import Sider from "../Sider/Sider";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 export default function RightLayout({ children }) {
   return (
     <Layout>
-      <Sider />
+      <Header />
       <Content>{children}</Content>
+      <Footer />
     </Layout>
   );
 }

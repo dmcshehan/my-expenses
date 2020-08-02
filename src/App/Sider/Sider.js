@@ -2,6 +2,7 @@ import React from "react";
 import { Layout } from "antd";
 
 import Menu from "../Menu/Menu";
+import Logo from "../Logo/Logo";
 
 const { Sider } = Layout;
 
@@ -18,6 +19,7 @@ export default function SiderComp() {
         console.log(collapsed, type);
       }}
     >
+      <Logo />
       <Menu />
     </Sider>
   );

@@ -14,7 +14,6 @@ export default function HeaderComp() {
         height: "auto",
       }}
     >
-      <Logo />
       <Navbar />
     </Header>
   );
