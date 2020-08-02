@@ -5,10 +5,10 @@ const { Item } = Menu;
 export default function MenuComp() {
   return (
     <Menu
-      theme='dark'
+      theme='light'
       mode='inline'
       defaultSelectedKeys={[""]}
-      style={{ backgroundColor: "#1f1f1f" }}
+      style={{ minHeight: "calc(100vh - 136px)" }}
     >
       <Item key='1'>nav 1</Item>
       <Item key='2'>nav 2</Item>

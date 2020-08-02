@@ -1,13 +1,15 @@
 import React from "react";
 import { Layout } from "antd";
-import Sider from "../Sider/Sider";
 import RightLayout from "../RightLayout/RightLayout";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 export default function LayoutComp({ children }) {
   return (
     <Layout>
-      <Sider />
+      <Header />
       <RightLayout>{children}</RightLayout>
+      <Footer />
     </Layout>
   );
 }

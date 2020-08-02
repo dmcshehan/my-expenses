@@ -25,17 +25,15 @@ export default function App() {
   });
 
   return (
-    <React.StrictMode>
-      <BrowserRouter>
-        <div className={classNames.app}>
-          <Switch>
-            <Route exact path='/' component={Home} />
-            <Route exact path='/signin' component={Signin} />
-            <Route exact path='/dashboard' component={Dashboard} />
-            <Route path='/' component={NotFound} />
-          </Switch>
-        </div>
-      </BrowserRouter>
-    </React.StrictMode>
+    <BrowserRouter>
+      <div className={classNames.app}>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route exact path='/signin' component={Signin} />
+          <Route exact path='/dashboard' component={Dashboard} />
+          <Route path='/' component={NotFound} />
+        </Switch>
+      </div>
+    </BrowserRouter>
   );
 }

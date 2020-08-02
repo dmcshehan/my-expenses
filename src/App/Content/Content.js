@@ -8,7 +8,7 @@ export default function ContentComp({ children }) {
     <Content style={{ margin: "24px 16px 0", backgroundColor: "white" }}>
       <div
         className='site-layout-background'
-        style={{ padding: 24, minHeight: 360 }}
+        style={{ padding: 24, minHeight: "calc(100vh - 160px)" }}
       >
         {children}
       </div>
