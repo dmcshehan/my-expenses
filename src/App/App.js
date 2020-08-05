@@ -9,8 +9,11 @@ import { userLoginSuccess } from "../store/actionCreators/user";
 
 import Dashboard from "./Dashboard/Dashboard";
 
-import NotFound from "./404/404";
-import Home from "./Home/Home";
+//custom components
+import ProfileDropdown from "./ProfileDropdown/ProfileDropdown";
+
+// import NotFound from "./404/404";
+// import Home from "./Home/Home";
 import Signin from "./Signin/Signin";
 
 export default function App() {
@@ -27,6 +30,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className={classNames.app}>
+        <ProfileDropdown />
         <Switch>
           <Route exact path='/' component={Signin} />
           <Route exact path='/signin' component={Signin} />
