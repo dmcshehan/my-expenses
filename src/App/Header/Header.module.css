@@ -1,0 +1,11 @@
+.header {
+  padding: 0 !important;
+  height: "auto";
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  background-color: white !important;
+}
