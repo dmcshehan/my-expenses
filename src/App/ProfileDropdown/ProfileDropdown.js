@@ -1,21 +1,23 @@
 import React from "react";
-import { useSelector } from "react-redux";
 
 //antd comps
-import { Avatar, Card } from "antd";
+import { Card, Divider } from "antd";
 
 //custom comps
-import ProfileMenu from "../ProfileMenu/ProfileMenu";
-
+import ProfileMenu from "./ProfileMenu/ProfileMenu";
+import Summary from "./Summary/Summary";
+import Avatar from "./Avatar/Avatar";
+import LogoutButton from "./LogoutButton/LogoutButton";
 //styles
 import { dropdown } from "./ProfileDropdown.module.css";
 
 export default function ProfileDropdown() {
-  const { photoURL } = useSelector((state) => state.user).user;
   return (
     <Card className={dropdown}>
-      <Avatar src={photoURL} size={64} />
-      <ProfileMenu />
+      <Avatar />
+      <Summary />
+      <Divider />
+      <LogoutButton />
     </Card>
   );
 }
