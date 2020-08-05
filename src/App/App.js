@@ -16,8 +16,13 @@ import ProfileDropdown from "./ProfileDropdown/ProfileDropdown";
 // import Home from "./Home/Home";
 import Signin from "./Signin/Signin";
 
+//custom hooks
+import useIsLoggedIn from "../hooks/useIsLoggedIn";
+
 export default function App() {
   const dispatch = useDispatch();
+
+  const isLoggedIn = useIsLoggedIn();
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (loggedInUser) {
@@ -30,7 +35,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className={classNames.app}>
-        <ProfileDropdown />
+        {isLoggedIn ? <ProfileDropdown /> : null}
+
         <Switch>
           <Route exact path='/' component={Signin} />
           <Route exact path='/signin' component={Signin} />

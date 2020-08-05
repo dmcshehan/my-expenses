@@ -4,7 +4,6 @@ import React from "react";
 import { Card, Divider } from "antd";
 
 //custom comps
-import ProfileMenu from "./ProfileMenu/ProfileMenu";
 import Summary from "./Summary/Summary";
 import Avatar from "./Avatar/Avatar";
 import LogoutButton from "./LogoutButton/LogoutButton";
