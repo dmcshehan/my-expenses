@@ -12,12 +12,6 @@ export default function SiderComp() {
       breakpoint='lg'
       collapsedWidth='0'
       style={{ backgroundColor: "#f5f5fa" }}
-      onBreakpoint={(broken) => {
-        console.log(broken);
-      }}
-      onCollapse={(collapsed, type) => {
-        console.log(collapsed, type);
-      }}
     >
       <Logo />
       <Menu />
