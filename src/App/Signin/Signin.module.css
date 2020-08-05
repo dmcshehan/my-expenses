@@ -1,0 +1,13 @@
+.signin {
+  display: flex;
+  flex-direction: column;
+
+  width: 400px;
+  min-height: 388px;
+  margin: 0 auto;
+  padding: 2rem 0.5rem;
+}
+
+.googleBtn {
+  background-color: #4285f4 !important;
+}
