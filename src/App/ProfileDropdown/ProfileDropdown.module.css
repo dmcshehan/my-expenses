@@ -3,4 +3,9 @@
   right: 16px;
   top: 70px;
   width: 300px;
+  display: none;
+}
+
+.show {
+  display: block !important;
 }
