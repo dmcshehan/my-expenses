@@ -4,6 +4,9 @@ import { useDispatch } from "react-redux";
 //antd comps
 import { Button } from "antd";
 
+//icons
+import { PoweroffOutlined } from "@ant-design/icons";
+
 //action creators
 import { logoutUser } from "../../../store/actionCreators/user";
 
@@ -14,7 +17,7 @@ export default function LogoutButton() {
     dispatch(logoutUser());
   }
   return (
-    <Button size='large' block onClick={onClick}>
+    <Button type='primary' block onClick={onClick} icon={<PoweroffOutlined />}>
       Logout from Account
     </Button>
   );
