@@ -11,7 +11,7 @@ import {
 } from "../../store/actionCreators/dropdown";
 
 //styles
-import { avatar } from "./NavbarAvatar.module.css";
+import { avatar, border } from "./NavbarAvatar.module.css";
 
 export default function NavbarAvatar() {
   const dispatch = useDispatch();
@@ -26,6 +26,10 @@ export default function NavbarAvatar() {
     dispatch(openDropdown());
   }
   return (
-    <Avatar src={photoURL} className={avatar} onClick={handleAvatarClick} />
+    <Avatar
+      src={photoURL}
+      className={`${avatar} ${isDropdownOpen ? border : ""}`}
+      onClick={handleAvatarClick}
+    />
   );
 }

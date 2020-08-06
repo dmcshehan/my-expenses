@@ -2,23 +2,23 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 //antd comps
-import { Dropdown, Avatar } from "antd";
+import { Card, Divider } from "antd";
 
 //custom comps
-import ProfileMenu from "../ProfileMenu/ProfileMenu";
+import Summary from "./Summary/Summary";
+import Avatar from "./Avatar/Avatar";
+import LogoutButton from "./LogoutButton/LogoutButton";
+//styles
+import { dropdown, show } from "./ProfileDropdown.module.css";
 
 export default function ProfileDropdown() {
-  const { photoURL } = useSelector((state) => state.user).user;
+  const { isDropdownOpen } = useSelector((state) => state.dropDown);
   return (
-    <Dropdown
-      overlay={ProfileMenu}
-      trigger={["click"]}
-      placement='bottomLeft'
-      arrow
-    >
-      <a className='ant-dropdown-link' onClick={(e) => e.preventDefault()}>
-        <Avatar src={photoURL} />
-      </a>
-    </Dropdown>
+    <Card className={`${dropdown} ${isDropdownOpen ? show : ""}`}>
+      <Avatar />
+      <Summary />
+      <Divider />
+      <LogoutButton />
+    </Card>
   );
 }

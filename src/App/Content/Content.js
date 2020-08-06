@@ -1,11 +1,14 @@
 import React from "react";
 import { Layout } from "antd";
 
+//styles
+import { content } from "./Content.module.css";
+
 const { Content } = Layout;
 
 export default function ContentComp({ children }) {
   return (
-    <Content style={{ margin: "24px 16px 0", backgroundColor: "white" }}>
+    <Content className={content}>
       <div
         className='site-layout-background'
         style={{ padding: 24, minHeight: "calc(100vh - 160px)" }}

@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Menu } from "antd";
+import { DashboardOutlined } from "@ant-design/icons";
+
 const { Item } = Menu;
 
 export default function MenuComp() {
@@ -11,7 +13,7 @@ export default function MenuComp() {
       defaultSelectedKeys={[""]}
       style={{ minHeight: "calc(100vh - 136px)" }}
     >
-      <Item key='1'>
+      <Item key='1' icon={<DashboardOutlined />}>
         <Link to='/dashboard'>Dashboard</Link>
       </Item>
     </Menu>
