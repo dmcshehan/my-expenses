@@ -1,6 +1,6 @@
 # My Expenses
 
-[![github starts](https://img.shields.io/github/stars/dmcshehan/my-expenses)](https://github.com/dmcshehan/my-expenses/stargazers) [![github license](https://img.shields.io/github/license/dmcshehan/my-expenses)](https://github.com/dmcshehan/my-expenses/blob/master/LICENSE.md)
+[![github starts](https://img.shields.io/github/stars/dmcshehan/my-expenses)](https://github.com/dmcshehan/my-expenses/stargazers) [![github issues](https://img.shields.io/github/issues/dmcshehan/my-expenses)](https://github.com/dmcshehan/my-expenses/issues) [![github license](https://img.shields.io/github/license/dmcshehan/my-expenses)](https://github.com/dmcshehan/my-expenses/blob/master/LICENSE.md) [![live demo](https://img.shields.io/badge/Demo-online-success?logo=firebase&style=plastic)](https://my-expenses-cf95d.firebaseapp.com/)
 
 An expense management application built with React, Redux and Firebase. You can add montly expenses and custom expense lists where it shows the summary of all your expenses and incomes.
 
