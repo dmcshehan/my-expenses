@@ -1,0 +1,7 @@
+.footer {
+  max-height: 50px !important;
+  padding: 10px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
