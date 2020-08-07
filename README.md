@@ -1,5 +1,7 @@
 # My Expenses
 
+[![github starts](https://img.shields.io/github/stars/dmcshehan/my-expenses?style=flat-square)](https://github.com/dmcshehan/my-expenses/stargazers)
+
 An expense management application built with React, Redux and Firebase. You can add montly expenses and custom expense lists where it shows the summary of all your expenses and incomes.
 
 ## Buy me a coffee
