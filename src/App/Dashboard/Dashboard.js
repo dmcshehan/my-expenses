@@ -19,7 +19,7 @@ export default function Dashboard() {
 
   return isLoggedIn ? (
     <Layout>
-      <Row gutter={16}>
+      <Row>
         <Col span={6}>
           <ExpenseList />
         </Col>
