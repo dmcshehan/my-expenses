@@ -1,6 +1,6 @@
 .header {
   padding: 0 !important;
-  height: "auto";
+  height: 42px !important;
 
   display: flex;
   align-items: center;

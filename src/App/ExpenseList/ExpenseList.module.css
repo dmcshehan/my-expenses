@@ -1,0 +1,6 @@
+.expenseList {
+  min-width: 300px;
+  min-height: calc(100vh - 84px);
+  background-color: white;
+  padding: 10px;
+}

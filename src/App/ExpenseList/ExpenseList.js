@@ -1,19 +1,37 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import { List, Avatar, Button, Skeleton } from "antd";
 
 //customcomps
-import AddExpenseList from "../AddExpenseList/AddExpenseList";
+import AddExpenseListForm from "../AddExpenseListForm/AddExpenseListForm";
+import Header from "./Header/Header";
+import Item from "./Item/Item";
+//styles
+import { expenseList } from "./ExpenseList.module.css";
+
+//action creators
+import { fetchExpenseLists } from "../../store/actionCreators/expenseList";
 
 export default function ExpenseList() {
-  const expenseLists = useSelector((state) => state.expenseList);
+  const dispatch = useDispatch();
+  const { expenseLists } = useSelector((state) => state.expenseList);
+  const { isAddExpenseFormOpen } = useSelector(
+    (state) => state.addExpenseListForm
+  );
 
   useEffect(() => {
-    console.log("hi");
+    dispatch(fetchExpenseLists());
   }, []);
 
   return (
-    <div>
-      <AddExpenseList />
+    <div className={expenseList}>
+      <Header />
+      {isAddExpenseFormOpen ? <AddExpenseListForm /> : null}
+      <List
+        dataSource={expenseLists}
+        renderItem={(item) => <Item {...item} />}
+      />
     </div>
   );
 }

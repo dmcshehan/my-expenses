@@ -11,7 +11,8 @@ import Layout from "../Layout/Layout";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 
 //custom comps
-import ExpenseLists from "../ExpenseList/ExpenseList";
+import ExpenseList from "../ExpenseList/ExpenseList";
+import ExpenseListDetails from "../ExpenseListDetails/ExpenseListDetails";
 
 export default function Dashboard() {
   const isLoggedIn = useIsLoggedIn();
@@ -19,14 +20,13 @@ export default function Dashboard() {
   return isLoggedIn ? (
     <Layout>
       <Row gutter={16}>
-        <Col span={4}>
-          <ExpenseLists />
+        <Col span={6}>
+          <ExpenseList />
         </Col>
-        <Col span={20}>
-          <ExpenseLists />
+        <Col span={18}>
+          <ExpenseListDetails />
         </Col>
       </Row>
-      <div></div>
     </Layout>
   ) : (
     <Redirect to='/signin' />
