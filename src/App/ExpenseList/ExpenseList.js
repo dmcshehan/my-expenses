@@ -21,7 +21,11 @@ export default function ExpenseList() {
   );
 
   useEffect(() => {
-    dispatch(fetchExpenseLists());
+    const unsubscribe = dispatch(fetchExpenseLists());
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return (

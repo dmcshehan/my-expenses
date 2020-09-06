@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import signUpUserWithProvider from "../../auth/signupUserWithProvider";
 
@@ -10,10 +10,11 @@ import { GoogleOutlined } from "@ant-design/icons";
 import { signin } from "./Signin.module.css";
 
 export default function Signup() {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
 
   function handleSignupWith(type) {
-    signUpUserWithProvider(type);
+    dispatch(signUpUserWithProvider(type));
   }
 
   return user ? (

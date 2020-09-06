@@ -11,6 +11,7 @@ export default function AddExpenseListButton() {
   function handleClick() {
     dispatch(showAddExpenseListForm());
   }
+
   return (
     <Button type='text' onClick={handleClick} icon={<PlusOutlined />}></Button>
   );
