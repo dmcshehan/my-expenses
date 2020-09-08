@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { selectDailyExpensesList } from "../../store/actionCreators/expenseList";
 
+import { expenseListDetails } from "./ExpenseListDetails.module.css";
+
 export default function ExpenseListDetails() {
   const dispatch = useDispatch();
   const { selected } = useSelector((state) => state.expenseList);
@@ -14,8 +16,8 @@ export default function ExpenseListDetails() {
 
   if (selected) {
     return (
-      <div>
-        <Header></Header>
+      <div className={expenseListDetails}>
+        <Header />
       </div>
     );
   }

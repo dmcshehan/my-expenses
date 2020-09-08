@@ -11,7 +11,7 @@ export default function MenuComp() {
       theme='light'
       mode='inline'
       defaultSelectedKeys={[""]}
-      style={{ minHeight: "calc(100vh - 64px)" }}
+      style={{ minHeight: "calc(100vh - 42px)" }}
     >
       <Item key='1' icon={<DashboardOutlined />}>
         <Link to='/dashboard'>Dashboard</Link>

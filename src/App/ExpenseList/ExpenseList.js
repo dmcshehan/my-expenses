@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { List, Avatar, Button, Skeleton } from "antd";
 
 //customcomps
-import AddExpenseListForm from "../AddExpenseListForm/AddExpenseListForm";
+import AddExpenseListForm from "./AddExpenseListForm/AddExpenseListForm";
 import Header from "./Header/Header";
 import Item from "./Item/Item";
 //styles
