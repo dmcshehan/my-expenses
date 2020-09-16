@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { List, Avatar, Button, Skeleton } from "antd";
+import { List } from "antd";
 
 //customcomps
 import AddExpenseListForm from "./AddExpenseListForm/AddExpenseListForm";
@@ -16,8 +16,8 @@ import { fetchExpenseLists } from "../../store/actionCreators/expenseList";
 export default function ExpenseList() {
   const dispatch = useDispatch();
   const { expenseLists } = useSelector((state) => state.expenseList);
-  const { isAddExpenseFormOpen } = useSelector(
-    (state) => state.addExpenseListForm
+  const { isAddExpenseListFormOpen } = useSelector(
+    (state) => state.expenseList
   );
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function ExpenseList() {
   return (
     <div className={expenseList}>
       <Header />
-      {isAddExpenseFormOpen ? <AddExpenseListForm /> : null}
+      {isAddExpenseListFormOpen ? <AddExpenseListForm /> : null}
       <List
         dataSource={expenseLists}
         renderItem={(item) => <Item {...item} />}

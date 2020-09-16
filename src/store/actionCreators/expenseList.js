@@ -2,9 +2,25 @@ import { db } from "../../auth/firebase";
 import {
   CHANGE_EXPENSE_LISTS_SUCCESS,
   SELECT_EXPENSE_LIST_SUCCESS,
+  SHOW_ADD_EXPENSE_LIST_FORM,
+  HIDE_ADD_EXPENSE_LIST_FORM,
 } from "../actionTypes/expenseList";
 
-import { hideAddExpenseListForm } from "../actionCreators/addExpenseListForm";
+function showAddExpenseListForm() {
+  return (dispatch) => {
+    dispatch({
+      type: SHOW_ADD_EXPENSE_LIST_FORM,
+    });
+  };
+}
+
+function hideAddExpenseListForm() {
+  return (dispatch) => {
+    dispatch({
+      type: HIDE_ADD_EXPENSE_LIST_FORM,
+    });
+  };
+}
 
 const expenseListCollection = db.collection("expenseLists");
 
@@ -56,6 +72,12 @@ function fetchExpenseLists() {
           expenseLists,
         },
       });
+
+      const { selected } = getState().expenseList;
+
+      if (!selected) {
+        dispatch(selectDailyExpensesList());
+      }
     });
 
     return unsubscribe;
@@ -77,6 +99,8 @@ function selectDailyExpensesList() {
   return (dispatch, getState) => {
     const { expenseLists } = getState().expenseList;
 
+    console.log("expenseLists", expenseLists);
+
     const { _id } = expenseLists.find(
       (expenseList) => expenseList.title === "Daily Expenses"
     );
@@ -91,4 +115,6 @@ export {
   selectExpenseList,
   addDailyExpensesList,
   selectDailyExpensesList,
+  showAddExpenseListForm,
+  hideAddExpenseListForm,
 };

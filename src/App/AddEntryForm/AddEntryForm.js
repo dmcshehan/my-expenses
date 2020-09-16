@@ -4,8 +4,6 @@ import { Form, Input } from "antd";
 
 import { input } from "./AddEntryForm.module.css";
 
-import { addExpenseList } from "../../store/actionCreators/expenseList";
-
 const { Item } = Form;
 
 export default function AddExpenseList({ onSubmit }) {

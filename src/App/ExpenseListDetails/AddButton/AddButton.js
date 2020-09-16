@@ -1,18 +1,16 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { PlusOutlined } from "@ant-design/icons";
-import { Button } from "antd";
 
-import { showAddExpenseListForm } from "../../../store/actionCreators/addExpenseListForm";
+import { showAddExpenseForm } from "../../../store/actionCreators/expenseListDetails";
+
+import AddButton from "../../AddButton/AddButton";
 
 export default function AddExpenseListButton() {
   const dispatch = useDispatch();
 
   function handleClick() {
-    dispatch(showAddExpenseListForm());
+    dispatch(showAddExpenseForm());
   }
 
-  return (
-    <Button type='text' onClick={handleClick} icon={<PlusOutlined />}></Button>
-  );
+  return <AddButton onClick={handleClick} />;
 }
