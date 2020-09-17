@@ -1,28 +1,51 @@
 import { db } from "../../auth/firebase";
-import { SELECT_EXPENSE_LIST } from "../actionTypes/expenseListDetails";
+import {
+  SHOW_ADD_EXPENSE_FORM,
+  HIDE_ADD_EXPENSE_FORM,
+} from "../actionTypes/expenseListDetails";
 
 const expensesCollection = db.collection("expenses");
 
 function fetchExpenses(listId) {
   return (dispatch, getState) => {
-    const { uid } = getState().user.user;
-
     const query = expensesCollection.where("listId", "==", listId);
 
     query.onSnapshot(function (querySnapshot) {
       const expenses = [];
       querySnapshot.forEach(function (doc) {
-        expenseLists.push({ ...doc.data(), _id: doc.id });
-      });
-
-      dispatch({
-        type: SELECT_EXPENSE_LIST,
-        payload: {
-          expenseLists,
-        },
+        expenses.push({ ...doc.data(), _id: doc.id });
       });
     });
   };
 }
 
-export { fetchExpenses };
+function addExpense(expense) {
+  return (dispatch) => {
+    expensesCollection
+      .add()
+      .then(() => {
+        console.log("Expense added!");
+      })
+      .catch((error) => {
+        console.error("Error writing document: ", error);
+      });
+  };
+}
+
+function showAddExpenseForm() {
+  return (dispatch) => {
+    dispatch({
+      type: SHOW_ADD_EXPENSE_FORM,
+    });
+  };
+}
+
+function hideAddExpenseForm() {
+  return (dispatch) => {
+    dispatch({
+      type: HIDE_ADD_EXPENSE_FORM,
+    });
+  };
+}
+
+export { fetchExpenses, addExpense, showAddExpenseForm, hideAddExpenseForm };

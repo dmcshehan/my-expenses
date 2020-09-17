@@ -1,15 +1,15 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 
-import AddButton from "../../AddButton/AddButton";
+import { showAddExpenseForm } from "../../../store/actionCreators/expenseListDetails";
 
-import { showAddExpenseListForm } from "../../../store/actionCreators/expenseList";
+import AddButton from "../../AddButton/AddButton";
 
 export default function AddExpenseListButton() {
   const dispatch = useDispatch();
 
   function handleClick() {
-    dispatch(showAddExpenseListForm());
+    dispatch(showAddExpenseForm());
   }
 
   return <AddButton onClick={handleClick} />;
