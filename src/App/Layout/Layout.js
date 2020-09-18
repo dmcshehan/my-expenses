@@ -7,7 +7,6 @@ import Sider from "../Sider/Sider";
 export default function LayoutComp({ children }) {
   return (
     <Layout>
-      <Sider />
       <RightLayout>{children}</RightLayout>
     </Layout>
   );

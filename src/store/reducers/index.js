@@ -21,7 +21,7 @@ const blackListAddExpenseListDetailsForm = createBlacklistFilter(
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["dropDown"],
+  blacklist: ["dropDown", "notification"],
   transforms: [blackListAddExpenseListForm, blackListAddExpenseListDetailsForm],
 };
 

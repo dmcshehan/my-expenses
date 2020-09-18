@@ -12,7 +12,7 @@ export default function RightLayout({ children }) {
       <Header />
       <div className={content}>{children}</div>
 
-      <Footer />
+      {/* <Footer /> */}
     </Layout>
   );
 }

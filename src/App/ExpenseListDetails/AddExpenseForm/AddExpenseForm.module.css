@@ -1,0 +1,8 @@
+.input {
+  border: none !important;
+  outline: none;
+}
+
+.form {
+  display: flex !important;
+}

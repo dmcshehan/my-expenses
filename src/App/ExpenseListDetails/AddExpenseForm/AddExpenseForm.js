@@ -1,21 +1,65 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Form, Input, DatePicker, InputNumber, Button, Select } from "antd";
 
-import AddEntryForm from "../../AddEntryForm/AddEntryForm";
+import { addExpense } from "../../../store/actionCreators/expenseListDetails";
 
-import { addExpenseList } from "../../../store/actionCreators/expenseList";
+import { input } from "./AddExpenseForm.module.css";
+
+const { Item } = Form;
+const { Option } = Select;
 
 export default function AddExpenseList() {
   const dispatch = useDispatch();
+  const textInput = React.createRef();
+  const [form] = Form.useForm();
+
   const { uid } = useSelector((state) => state.user.user);
+  const { _id } = useSelector((state) => state.expenseList.selected);
 
   function onFinish(values) {
-    dispatch(addExpenseList({ ...values, uid }));
+    dispatch(
+      addExpense({
+        ...values,
+        listId: _id,
+        uid,
+        date: values.createdOn._d,
+        createdOn: new Date(),
+        lastUpdatedOn: false,
+      })
+    );
   }
 
+  useEffect(() => {
+    textInput.current.focus();
+  });
+
   return (
-    <div>
-      <AddEntryForm onSubmit={(values) => onFinish(values)} />
-    </div>
+    <Form
+      onFinish={onFinish}
+      form={form}
+      layout='inline'
+      initialValues={{ currency: "LKR" }}
+    >
+      <Item name='reason'>
+        <Input className={input} ref={textInput} placeholder='Reason' />
+      </Item>
+      <Item name='createdOn'>
+        <DatePicker />
+      </Item>
+      <Item name='currency'>
+        <Select style={{ width: 120 }}>
+          <Option value='LKR'>Rs</Option>
+        </Select>
+      </Item>
+      <Item name='cost'>
+        <InputNumber placeholder='Cost' />
+      </Item>
+      <Item>
+        <Button type='primary' htmlType='submit'>
+          Add Expense
+        </Button>
+      </Item>
+    </Form>
   );
 }

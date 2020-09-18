@@ -75,9 +75,9 @@ function fetchExpenseLists() {
 
       const { selected } = getState().expenseList;
 
-      if (!selected) {
-        dispatch(selectDailyExpensesList());
-      }
+      // if (!selected) {
+      //   dispatch(selectDailyExpensesList());
+      // }
     });
 
     return unsubscribe;

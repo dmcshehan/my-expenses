@@ -8,9 +8,11 @@ import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { userLoginSuccess } from "../store/actionCreators/user";
 
 import Dashboard from "./Dashboard/Dashboard";
+import Lists from "./Lists/Lists";
 
 //custom components
 import ProfileDropdown from "./ProfileDropdown/ProfileDropdown";
+import Notification from "./Notification/Notification";
 
 // import NotFound from "./404/404";
 // import Home from "./Home/Home";
@@ -36,11 +38,13 @@ export default function App() {
     <BrowserRouter>
       <div className={classNames.app}>
         {isLoggedIn ? <ProfileDropdown /> : null}
+        <Notification />
 
         <Switch>
           <Route exact path='/' component={Signin} />
           <Route exact path='/signin' component={Signin} />
           <Route exact path='/dashboard' component={Dashboard} />
+          <Route exact path='/lists' component={Lists} />
           <Route path='/' component={Signin} />
         </Switch>
       </div>
