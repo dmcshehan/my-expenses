@@ -4,7 +4,10 @@ import {
   SELECT_EXPENSE_LIST_SUCCESS,
   SHOW_ADD_EXPENSE_LIST_FORM,
   HIDE_ADD_EXPENSE_LIST_FORM,
+  UPDATE_EXPENSE_LIST_SUCCESS,
 } from "../actionTypes/expenseList";
+
+const expenseListCollection = db.collection("expenseLists");
 
 function showAddExpenseListForm() {
   return (dispatch) => {
@@ -22,8 +25,6 @@ function hideAddExpenseListForm() {
   };
 }
 
-const expenseListCollection = db.collection("expenseLists");
-
 function addExpenseList(expenseList) {
   return (dispatch) => {
     expenseListCollection
@@ -38,19 +39,33 @@ function addExpenseList(expenseList) {
   };
 }
 
-function addDailyExpensesList(uid) {
+function updateExpenseList(_id, newData) {
   return (dispatch) => {
-    expenseListCollection
-      .add({
-        title: "Daily Expenses",
-        uid,
-      })
-      .then(function () {
-        console.log("Expense List added!");
-      })
-      .catch(function (error) {
-        console.error("Error writing document: ", error);
-      });
+    return new Promise(function (resolve, reject) {
+      expenseListCollection
+        .doc(_id)
+        .set(
+          {
+            ...newData,
+          },
+          { merge: true }
+        )
+        .then(function () {
+          resolve("Expense List updated!");
+          dispatch({
+            type: UPDATE_EXPENSE_LIST_SUCCESS,
+            payload: {
+              updated: {
+                ...newData,
+                _id,
+              },
+            },
+          });
+        })
+        .catch(function (error) {
+          console.error("Error writing document: ", error);
+        });
+    });
   };
 }
 
@@ -95,6 +110,24 @@ function selectExpenseList(listId) {
   };
 }
 
+// Not used
+
+function addDailyExpensesList(uid) {
+  return (dispatch) => {
+    expenseListCollection
+      .add({
+        title: "Daily Expenses",
+        uid,
+      })
+      .then(function () {
+        console.log("Expense List added!");
+      })
+      .catch(function (error) {
+        console.error("Error writing document: ", error);
+      });
+  };
+}
+
 function selectDailyExpensesList() {
   return (dispatch, getState) => {
     const { expenseLists } = getState().expenseList;
@@ -117,4 +150,5 @@ export {
   selectDailyExpensesList,
   showAddExpenseListForm,
   hideAddExpenseListForm,
+  updateExpenseList,
 };

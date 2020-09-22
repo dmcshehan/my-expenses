@@ -1,4 +1,15 @@
 .input {
-  border: none !important;
+  /* border: none !important;*/
   outline: none;
+  width: 100% !important;
+}
+
+.formComp {
+  margin-top: 10px !important;
+  display: flex;
+  justify-content: space-between;
+}
+
+.listName {
+  width: calc(100% - 120px);
 }

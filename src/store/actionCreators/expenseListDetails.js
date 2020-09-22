@@ -1,4 +1,5 @@
 import { db } from "../../auth/firebase";
+import moment from "moment";
 
 import { displaySuccessNotification } from "./notification";
 import {
@@ -16,7 +17,13 @@ function fetchExpenses(listId) {
     query.onSnapshot(function (querySnapshot) {
       const expenses = [];
       querySnapshot.forEach(function (doc) {
-        expenses.push({ ...doc.data(), _id: doc.id });
+        const data = { ...doc.data() };
+
+        expenses.push({
+          _id: doc.id,
+          ...data,
+          date: moment(data.date.seconds * 1000),
+        });
       });
 
       dispatch({
@@ -31,18 +38,41 @@ function fetchExpenses(listId) {
 
 function addExpense(expense) {
   return (dispatch) => {
-    expensesCollection
-      .add(expense)
-      .then(() => {
-        dispatch(
-          displaySuccessNotification({
-            title: "Expense added!",
-          })
-        );
-      })
-      .catch((error) => {
-        console.error("Error writing document: ", error);
-      });
+    return new Promise(function (resolve, reject) {
+      expensesCollection
+        .add(expense)
+        .then(function () {
+          resolve("Expense List updated!");
+          dispatch(
+            displaySuccessNotification({
+              title: "Expense added!",
+            })
+          );
+        })
+        .catch((error) => {
+          console.error("Error writing document: ", error);
+        }); //end
+    });
+  };
+}
+function updateExpense(_id, newExpense) {
+  return (dispatch) => {
+    return new Promise(function (resolve, reject) {
+      expensesCollection
+        .doc(_id)
+        .set(
+          {
+            ...newExpense,
+          },
+          { merge: true }
+        )
+        .then(function () {
+          resolve("Expense updated!");
+        })
+        .catch(function (error) {
+          console.error("Error writing document: ", error);
+        }); //end
+    });
   };
 }
 
@@ -62,4 +92,10 @@ function hideAddExpenseForm() {
   };
 }
 
-export { fetchExpenses, addExpense, showAddExpenseForm, hideAddExpenseForm };
+export {
+  fetchExpenses,
+  addExpense,
+  showAddExpenseForm,
+  hideAddExpenseForm,
+  updateExpense,
+};

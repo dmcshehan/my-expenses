@@ -23,11 +23,13 @@ export default function AddExpenseList() {
         ...values,
         listId: _id,
         uid,
-        date: values.createdOn._d,
+        date: values.date._d,
         createdOn: new Date(),
         lastUpdatedOn: false,
       })
-    );
+    ).then(() => {
+      form.resetFields();
+    });
   }
 
   useEffect(() => {
@@ -44,7 +46,7 @@ export default function AddExpenseList() {
       <Item name='reason'>
         <Input className={input} ref={textInput} placeholder='Reason' />
       </Item>
-      <Item name='createdOn'>
+      <Item name='date'>
         <DatePicker />
       </Item>
       <Item name='currency'>

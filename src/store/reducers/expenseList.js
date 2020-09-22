@@ -4,6 +4,7 @@ import {
   SELECT_EXPENSE_LIST_SUCCESS,
   SHOW_ADD_EXPENSE_LIST_FORM,
   HIDE_ADD_EXPENSE_LIST_FORM,
+  UPDATE_EXPENSE_LIST_SUCCESS,
 } from "../actionTypes/expenseList.js";
 
 const initialState = {
@@ -19,6 +20,13 @@ export default (state = initialState, action) =>
       case CHANGE_EXPENSE_LISTS_SUCCESS:
         draftState.expenseLists = payload.expenseLists;
         break;
+
+      case UPDATE_EXPENSE_LIST_SUCCESS:
+        if (payload.updated._id === state.selected._id) {
+          draftState.selected = payload.updated;
+        }
+        break;
+
       case SELECT_EXPENSE_LIST_SUCCESS:
         //draftState.selected = payload.listId;
         draftState.selected = state.expenseLists.find(

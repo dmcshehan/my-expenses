@@ -21,8 +21,8 @@ export default function Dashboard() {
   const isLoggedIn = useIsLoggedIn();
 
   function generateTiles() {
-    return links.map((item) => (
-      <Col span={4}>
+    return links.map((item, index) => (
+      <Col span={4} key={index}>
         <Tile {...item} />
       </Col>
     ));
