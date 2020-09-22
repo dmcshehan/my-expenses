@@ -3,12 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { List } from "antd";
 
-//customcomps
+//customc omps
 import AddExpenseListForm from "./AddExpenseListForm/AddExpenseListForm";
 import Header from "./Header/Header";
 import Item from "./Item/Item";
+import ListEmpty from "../ListEmpty/ListEmpty";
+
 //styles
-import { expenseList } from "./ExpenseList.module.css";
+import { expenseList, list } from "./ExpenseList.module.css";
 
 //action creators
 import { fetchExpenseLists } from "../../store/actionCreators/expenseList";
@@ -32,10 +34,15 @@ export default function ExpenseList() {
     <div className={expenseList}>
       <Header />
       {isAddExpenseListFormOpen ? <AddExpenseListForm /> : null}
-      <List
-        dataSource={expenseLists}
-        renderItem={(item) => <Item {...item} />}
-      />
+      {expenseLists.length === 0 ? (
+        <ListEmpty text='No Lists' />
+      ) : (
+        <List
+          className={list}
+          dataSource={expenseLists}
+          renderItem={(item) => <Item {...item} />}
+        />
+      )}
     </div>
   );
 }

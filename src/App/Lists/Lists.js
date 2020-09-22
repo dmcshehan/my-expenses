@@ -11,27 +11,21 @@ import Layout from "../Layout/Layout";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 
 //custom comps
-import Tile from "./Tile/Tile";
-
-import links from "./links";
-
-import { row } from "./Dashboard.module.css";
+import ExpenseList from "../ExpenseList/ExpenseList";
+import ExpenseListDetails from "../ExpenseListDetails/ExpenseListDetails";
 
 export default function Dashboard() {
   const isLoggedIn = useIsLoggedIn();
 
-  function generateTiles() {
-    return links.map((item, index) => (
-      <Col span={4} key={index}>
-        <Tile {...item} />
-      </Col>
-    ));
-  }
-
   return isLoggedIn ? (
     <Layout>
-      <Row className={row} gutter={[48, 48]}>
-        {generateTiles()}
+      <Row>
+        <Col span={6}>
+          <ExpenseList />
+        </Col>
+        <Col span={18}>
+          <ExpenseListDetails />
+        </Col>
       </Row>
     </Layout>
   ) : (

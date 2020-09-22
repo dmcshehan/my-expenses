@@ -33,7 +33,7 @@ export default function signUpUser(type) {
             })
             .then(function () {
               console.log("Document successfully written!");
-              dispatch(addDailyExpensesList(uid));
+              //dispatch(addDailyExpensesList(uid));
             })
             .catch(function (error) {
               console.error("Error writing document: ", error);

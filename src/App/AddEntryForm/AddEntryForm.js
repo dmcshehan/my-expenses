@@ -8,7 +8,6 @@ const { Item } = Form;
 
 export default function AddExpenseList({ onSubmit }) {
   const dispatch = useDispatch();
-  const { uid } = useSelector((state) => state.user.user);
   const textInput = React.createRef();
   const [form] = Form.useForm();
 
@@ -17,8 +16,7 @@ export default function AddExpenseList({ onSubmit }) {
   });
 
   function onFinish(values) {
-    // dispatch(addExpenseList({ ...values, uid }));
-    dispatch(onSubmit({ ...values, uid }));
+    dispatch(onSubmit({ ...values }));
   }
 
   return (

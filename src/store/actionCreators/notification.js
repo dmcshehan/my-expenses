@@ -2,13 +2,15 @@ import {
   SUCCESS_NOTIFICATION,
   ERROR_NOTIFICATION,
   CLEAR_ALL_NOTIFICATIONS,
+  CLEAR_SUCCESS_NOTIFICATION,
+  CLEAR_ERROR_NOTIFICATION,
 } from "../actionTypes/notification";
 
-function displaySuccessNotification(message) {
+function displaySuccessNotification(notificationInfo) {
   return {
     type: SUCCESS_NOTIFICATION,
     payload: {
-      success: message,
+      ...notificationInfo,
     },
   };
 }
@@ -17,7 +19,7 @@ function displayErrorNotification(message) {
   return {
     type: ERROR_NOTIFICATION,
     payload: {
-      error: message,
+      message,
     },
   };
 }
@@ -28,8 +30,22 @@ function clearAllNotifications(message) {
   };
 }
 
+function clearSuccessNotification() {
+  return {
+    type: CLEAR_SUCCESS_NOTIFICATION,
+  };
+}
+
+function clearErrorNotification() {
+  return {
+    type: CLEAR_ERROR_NOTIFICATION,
+  };
+}
+
 export {
   displaySuccessNotification,
   displayErrorNotification,
   clearAllNotifications,
+  clearErrorNotification,
+  clearSuccessNotification,
 };
