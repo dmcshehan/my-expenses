@@ -11,6 +11,13 @@ import {
   Button,
 } from "antd";
 
+import {
+  DeleteOutlined,
+  EditOutlined,
+  CloseOutlined,
+  SaveOutlined,
+} from "@ant-design/icons";
+
 import { updateExpense } from "../../../store/actionCreators/expenseListDetails";
 
 import moment from "moment";
@@ -70,10 +77,8 @@ export default function EditableTable() {
   const [editingId, setEditingId] = useState("");
 
   useEffect(() => {
-    if (selected) {
-      dispatch(fetchExpenses(selected._id));
-    }
-  }, []);
+    setData(expenses);
+  }, [expenses]); //fire only when expenses array changes
 
   const isEditing = (record) => record._id === editingId;
 
@@ -149,16 +154,24 @@ export default function EditableTable() {
                 marginRight: 8,
               }}
             >
-              Save
+              <SaveOutlined />
             </a>
             <Popconfirm title='Sure to cancel?' onConfirm={cancel}>
               <a>Cancel</a>
             </Popconfirm>
           </span>
         ) : (
-          <a disabled={editingId !== ""} onClick={() => edit(record)}>
-            Edit
-          </a>
+          <Space size='middle'>
+            <a disabled={editingId !== ""} onClick={() => edit(record)}>
+              <EditOutlined />
+            </a>
+
+            <Popconfirm title='Sure to delete?' onConfirm={cancel}>
+              <a>
+                <DeleteOutlined />
+              </a>
+            </Popconfirm>
+          </Space>
         );
       },
     },

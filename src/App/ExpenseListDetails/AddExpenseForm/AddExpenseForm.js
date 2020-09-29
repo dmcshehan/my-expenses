@@ -39,6 +39,7 @@ export default function AddExpenseList() {
   return (
     <Form
       onFinish={onFinish}
+      onClick={(e) => e.stopPropagation()}
       form={form}
       layout='inline'
       initialValues={{ currency: "LKR" }}
