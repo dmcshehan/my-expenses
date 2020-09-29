@@ -26,6 +26,7 @@ export default function AddExpenseList() {
     <div>
       <Form
         onFinish={onFinish}
+        onClick={(e) => e.stopPropagation()}
         form={form}
         layout='inline'
         className={formComp}

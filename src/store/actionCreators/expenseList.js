@@ -7,6 +7,8 @@ import {
   UPDATE_EXPENSE_LIST_SUCCESS,
 } from "../actionTypes/expenseList";
 
+import { fetchExpenses } from "./expenseListDetails";
+
 const expenseListCollection = db.collection("expenseLists");
 
 function showAddExpenseListForm() {
@@ -107,6 +109,8 @@ function selectExpenseList(listId) {
         listId,
       },
     });
+
+    dispatch(fetchExpenses(listId));
   };
 }
 
