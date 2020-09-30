@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
+
 import {
   Table,
   Space,
@@ -8,22 +10,20 @@ import {
   Popconfirm,
   Form,
   DatePicker,
-  Button,
 } from "antd";
 
-import {
-  DeleteOutlined,
-  EditOutlined,
-  CloseOutlined,
-  SaveOutlined,
-} from "@ant-design/icons";
+// import {
+//   DeleteOutlined,
+//   EditOutlined,
+//   CloseOutlined,
+//   SaveOutlined,
+// } from "@ant-design/icons";
 
 import { updateExpense } from "../../../store/actionCreators/expenseListDetails";
 
-import moment from "moment";
+//import { fetchExpenses } from "../../../store/actionCreators/expenseListDetails";
 
-import { fetchExpenses } from "../../../store/actionCreators/expenseListDetails";
-
+import { icon } from "./ExpenseTable.module.css";
 const EditableCell = ({
   editing,
   dataIndex,
@@ -69,7 +69,7 @@ const EditableCell = ({
 
 export default function EditableTable() {
   const { expenses } = useSelector((state) => state.expenseListDetails);
-  const { selected } = useSelector((state) => state.expenseList);
+  //const { selected } = useSelector((state) => state.expenseList);
 
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -147,29 +147,40 @@ export default function EditableTable() {
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (
-          <span>
-            <a
+          <Space>
+            <Popconfirm title='Sure to cancel?' onConfirm={cancel}>
+              <span className={icon}>
+                {/* <CloseOutlined /> */}
+                Cancel
+              </span>
+            </Popconfirm>
+            <span
               onClick={() => save(record._id)}
               style={{
                 marginRight: 8,
               }}
+              className={icon}
             >
-              <SaveOutlined />
-            </a>
-            <Popconfirm title='Sure to cancel?' onConfirm={cancel}>
-              <a>Cancel</a>
-            </Popconfirm>
-          </span>
+              {/* <SaveOutlined /> */}
+              Save
+            </span>
+          </Space>
         ) : (
           <Space size='middle'>
-            <a disabled={editingId !== ""} onClick={() => edit(record)}>
-              <EditOutlined />
-            </a>
+            <span
+              className={icon}
+              disabled={editingId !== ""}
+              onClick={() => edit(record)}
+            >
+              {/* <EditOutlined /> */}
+              Edit
+            </span>
 
             <Popconfirm title='Sure to delete?' onConfirm={cancel}>
-              <a>
-                <DeleteOutlined />
-              </a>
+              <span className={icon}>
+                {/* <DeleteOutlined /> */}
+                Delete
+              </span>
             </Popconfirm>
           </Space>
         );

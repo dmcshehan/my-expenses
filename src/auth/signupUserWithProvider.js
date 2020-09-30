@@ -1,7 +1,7 @@
 import firebase, { db } from "./firebase";
 import googleProvider from "./providers/google";
 
-import { addDailyExpensesList } from "../store/actionCreators/expenseList";
+//import { addDailyExpensesList } from "../store/actionCreators/expenseList";
 
 export default function signUpUser(type) {
   let provider = null;
