@@ -12,7 +12,6 @@ const expensesCollection = db.collection("expenses");
 
 function fetchExpenses(listId) {
   return (dispatch) => {
-    console.log(listId);
     const query = expensesCollection.where("listId", "==", listId);
 
     query.onSnapshot(function (querySnapshot) {
@@ -26,8 +25,6 @@ function fetchExpenses(listId) {
           date: moment(data.date.seconds * 1000),
         });
       });
-
-      console.log(expenses);
 
       dispatch({
         type: FETCH_EXPENSES_SUCCESS,

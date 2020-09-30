@@ -41,14 +41,14 @@ function addExpenseList(expenseList) {
   };
 }
 
-function updateExpenseList(_id, newData) {
+function updateExpenseList(updated) {
   return (dispatch) => {
     return new Promise(function (resolve, reject) {
       expenseListCollection
-        .doc(_id)
+        .doc(updated._id)
         .set(
           {
-            ...newData,
+            title: updated.title,
           },
           { merge: true }
         )
@@ -58,8 +58,7 @@ function updateExpenseList(_id, newData) {
             type: UPDATE_EXPENSE_LIST_SUCCESS,
             payload: {
               updated: {
-                ...newData,
-                _id,
+                ...updated,
               },
             },
           });
@@ -90,7 +89,7 @@ function fetchExpenseLists() {
         },
       });
 
-      const { selected } = getState().expenseList;
+      // const { selected } = getState().expenseList;
 
       // if (!selected) {
       //   dispatch(selectDailyExpensesList());
