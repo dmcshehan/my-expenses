@@ -17,6 +17,7 @@ import {
   fetchExpenseLists,
   selectExpenseList,
   updateExpenseList,
+  deleteExpenseList,
 } from "../../store/actionCreators/expenseList";
 
 export default function ExpenseList() {
@@ -59,8 +60,9 @@ export default function ExpenseList() {
     event.stopPropagation();
   }
 
-  function deleteLIst(event) {
+  function deleteLIst(event, _id) {
     event.stopPropagation();
+    dispatch(deleteExpenseList(_id));
   }
 
   function update(event) {

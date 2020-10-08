@@ -5,6 +5,7 @@ import {
   SHOW_ADD_EXPENSE_LIST_FORM,
   HIDE_ADD_EXPENSE_LIST_FORM,
   UPDATE_EXPENSE_LIST_SUCCESS,
+  CLEAR_SELECTED_EXPENSE_LIST,
 } from "../actionTypes/expenseList.js";
 
 const initialState = {
@@ -39,6 +40,10 @@ export default (state = initialState, action) =>
         break;
       case HIDE_ADD_EXPENSE_LIST_FORM:
         draftState.isAddExpenseListFormOpen = false;
+        break;
+
+      case CLEAR_SELECTED_EXPENSE_LIST:
+        draftState.selected = null;
         break;
 
       default:

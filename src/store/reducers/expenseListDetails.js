@@ -3,6 +3,7 @@ import {
   FETCH_EXPENSES_SUCCESS,
   SHOW_ADD_EXPENSE_FORM,
   HIDE_ADD_EXPENSE_FORM,
+  CLEAR_EXPENSES,
 } from "../actionTypes/expenseListDetails";
 
 const initialState = {
@@ -23,6 +24,11 @@ export default (state = initialState, action) =>
       case HIDE_ADD_EXPENSE_FORM:
         draftState.isAddExpenseFormOpen = false;
         break;
+
+      case CLEAR_EXPENSES:
+        draftState.expenses = [];
+        break;
+
       default:
         break;
     }

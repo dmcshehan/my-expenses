@@ -6,6 +6,7 @@ import {
   SHOW_ADD_EXPENSE_FORM,
   HIDE_ADD_EXPENSE_FORM,
   FETCH_EXPENSES_SUCCESS,
+  CLEAR_EXPENSES,
 } from "../actionTypes/expenseListDetails";
 
 const expensesCollection = db.collection("expenses");
@@ -76,6 +77,31 @@ function updateExpense(_id, newExpense) {
   };
 }
 
+function deleteExpense(_id) {
+  return (dispatch) => {
+    return new Promise(function (resolve, reject) {
+      expensesCollection
+        .doc(_id)
+        .delete()
+        .then(function () {
+          console.log("Deleted");
+          resolve("Expense deleted!");
+        })
+        .catch(function (error) {
+          console.error("Error writing document: ", error);
+        }); //end
+    });
+  };
+}
+
+function clearExpense(_id) {
+  return (dispatch) => {
+    dispatch({
+      type: CLEAR_EXPENSES,
+    });
+  };
+}
+
 function showAddExpenseForm() {
   return (dispatch) => {
     dispatch({
@@ -98,4 +124,6 @@ export {
   showAddExpenseForm,
   hideAddExpenseForm,
   updateExpense,
+  deleteExpense,
+  clearExpense,
 };
