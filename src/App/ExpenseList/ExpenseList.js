@@ -8,8 +8,7 @@ import AddExpenseListForm from "./AddExpenseListForm/AddExpenseListForm";
 import Header from "./Header/Header";
 import Item from "./Item/Item";
 import ListEmpty from "../ListEmpty/ListEmpty";
-import ColumnInnerWraper from './../ColumnInnerWrapper/ColumnInnerWraper';
-
+import ColumnInnerWraper from "./../ColumnInnerWrapper/ColumnInnerWraper";
 
 //styles
 import { list, expenseList } from "./ExpenseList.module.css";
@@ -27,7 +26,9 @@ export default function ExpenseList() {
 
   const dispatch = useDispatch();
 
-  const { isAddExpenseListFormOpen, expenseLists } = useSelector((state) => state.expenseList);
+  const { isAddExpenseListFormOpen, expenseLists } = useSelector(
+    (state) => state.expenseList
+  );
 
   useEffect(() => {
     const unsubscribe = dispatch(fetchExpenseLists());
@@ -76,28 +77,28 @@ export default function ExpenseList() {
       <Header />
       {isAddExpenseListFormOpen ? <AddExpenseListForm /> : null}
       {expenseLists.length === 0 ? (
-        <ListEmpty text='No Lists' />
+        <ListEmpty text="No Lists" />
       ) : (
-          <List
-            className={list}
-            dataSource={expenseLists}
-            renderItem={(item) => (
-              <Item
-                {...item}
-                {...{
-                  updating,
-                  update,
-                  deleteLIst,
-                  cancelUpdate,
-                  onUpdate,
-                  makeUpdatable,
-                  selectList,
-                  stopPropogation,
-                }}
-              />
-            )}
-          />
-        )}
+        <List
+          className={list}
+          dataSource={expenseLists}
+          renderItem={(item) => (
+            <Item
+              {...item}
+              {...{
+                updating,
+                update,
+                deleteLIst,
+                cancelUpdate,
+                onUpdate,
+                makeUpdatable,
+                selectList,
+                stopPropogation,
+              }}
+            />
+          )}
+        />
+      )}
     </ColumnInnerWraper>
   );
 }

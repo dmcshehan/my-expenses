@@ -10,6 +10,8 @@ import {
 
 // import { fetchGroups, clearGroup } from "./groupListDetails";
 
+import { fetchExpensesForTheGroup } from "./groupListDetails";
+
 const groupListCollection = db.collection("groupLists");
 const groupsCollection = db.collection("groups");
 
@@ -59,7 +61,7 @@ function updateGroupList(updated) {
         .set(
           {
             title: updated.title,
-            lists: updated.lists
+            lists: updated.lists,
           },
           { merge: true }
         )
@@ -88,24 +90,13 @@ function deleteGroupList(listId) {
         .doc(listId)
         .delete()
         .then(function () {
-          groupsCollection
-            .where("listId", "==", listId)
-            .get()
-            .then(function (querySnapshot) {
-              const batch = db.batch();
-              const { _id } = getState().groupList.selected;
-              querySnapshot.forEach(function (doc) {
-                batch.delete(doc.ref);
-              });
+          const { selected } = getState().groupList;
 
-              if (_id === listId) {
-                // dispatch(clearGroup());
-              }
+          if (selected._id === listId) {
+            // dispatch(clearGroup());
+          }
 
-              dispatch(clearSelectedGroupList());
-
-              resolve(batch.commit());
-            });
+          //  dispatch(clearSelectedGroupList());
         })
         .catch(function (error) {
           console.error("Error writing document: ", error);
@@ -138,16 +129,19 @@ function fetchGroupLists() {
   };
 }
 
-function selectGroupList(listId) {
-  return (dispatch) => {
+function selectGroupList(groupId) {
+  return (dispatch, getState) => {
+    const { groupLists } = getState().groupList;
+    const selectedGroup = groupLists.find((group) => group._id === groupId);
+
     dispatch({
       type: SELECT_GROUP_LIST_SUCCESS,
       payload: {
-        listId,
+        groupId,
       },
     });
 
-    //  dispatch(fetchGroups(listId));
+    dispatch(fetchExpensesForTheGroup(selectedGroup.lists));
   };
 }
 

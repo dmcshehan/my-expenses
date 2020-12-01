@@ -1,15 +1,16 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 import Title from "../Title/Title";
-import AddButton from "../AddButton/AddButton";
-import ColumnHeader from '../../ColumnHeader/ColumnHeader'
-
+import ColumnHeader from "../../ColumnHeader/ColumnHeader";
+import TotalAmount from "../TotalAmount/TotalAmount";
 
 export default function Header() {
+  const { expenses } = useSelector((state) => state.groupListDetails);
   return (
     <ColumnHeader>
       <Title />
-      <AddButton />
+      <TotalAmount expenses={expenses} />
     </ColumnHeader>
   );
 }
