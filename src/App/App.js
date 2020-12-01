@@ -9,6 +9,9 @@ import { userLoginSuccess } from "../store/actionCreators/user";
 
 import Dashboard from "./Dashboard/Dashboard";
 import Lists from "./Lists/Lists";
+import Groups from './Groups/Groups'
+import Layout from './Layout/Layout'
+
 
 //custom components
 import ProfileDropdown from "./ProfileDropdown/ProfileDropdown";
@@ -37,16 +40,20 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className={classNames.app}>
-        {isLoggedIn ? <ProfileDropdown /> : null}
-        <Notification />
+        <Layout>
+          {isLoggedIn ? <ProfileDropdown /> : null}
+          <Notification />
 
-        <Switch>
-          <Route exact path='/' component={Signin} />
-          <Route exact path='/signin' component={Signin} />
-          <Route exact path='/dashboard' component={Dashboard} />
-          <Route exact path='/lists' component={Lists} />
-          <Route path='/' component={Signin} />
-        </Switch>
+          <Switch>
+            <Route exact path='/' component={Signin} />
+            <Route exact path='/signin' component={Signin} />
+            <Route exact path='/dashboard' component={Dashboard} />
+            <Route exact path='/lists' component={Lists} />
+            <Route exact path="/projects" component={Groups} />
+            <Route path='/' component={Signin} />
+          </Switch>
+        </Layout>
+
       </div>
     </BrowserRouter>
   );

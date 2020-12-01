@@ -1,13 +1,6 @@
 import React from "react";
 import { List, Input, Popconfirm } from "antd";
 
-// import {
-//   DeleteOutlined,
-//   EditOutlined,
-//   CloseOutlined,
-//   SaveOutlined,
-// } from "@ant-design/icons";
-
 import { item, icon } from "./Item.module.css";
 
 const { Item } = List;
@@ -35,11 +28,9 @@ export default function ItemComp({
               className={icon}
             >
               Cancel
-              {/* <CloseOutlined /> */}
             </span>,
             <span key='list-loadmore-more' onClick={update} className={icon}>
               Save
-              {/* <SaveOutlined /> */}
             </span>,
           ]}
           className={item}
@@ -59,17 +50,18 @@ export default function ItemComp({
               className={icon}
             >
               Edit
-              {/* <EditOutlined /> */}
             </span>,
 
-            <Popconfirm title='Sure to delete?' onConfirm={deleteLIst}>
+            <Popconfirm
+              title='Deleting this list will delete all expenses associate with it. Sure to delete?'
+              onConfirm={(e) => deleteLIst(e, _id)}
+            >
               <span
                 key='list-loadmore-more'
                 onClick={stopPropogation}
                 className={icon}
               >
                 Delete
-                {/* <DeleteOutlined /> */}
               </span>
             </Popconfirm>,
           ]}

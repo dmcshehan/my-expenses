@@ -5,11 +5,13 @@ import {
   SHOW_ADD_EXPENSE_LIST_FORM,
   HIDE_ADD_EXPENSE_LIST_FORM,
   UPDATE_EXPENSE_LIST_SUCCESS,
+  CLEAR_SELECTED_EXPENSE_LIST,
 } from "../actionTypes/expenseList";
 
-import { fetchExpenses } from "./expenseListDetails";
+import { fetchExpenses, clearExpense } from "./expenseListDetails";
 
 const expenseListCollection = db.collection("expenseLists");
+const expensesCollection = db.collection("expenses");
 
 function showAddExpenseListForm() {
   return (dispatch) => {
@@ -20,9 +22,17 @@ function showAddExpenseListForm() {
 }
 
 function hideAddExpenseListForm() {
+  // return (dispatch) => {
+  //   dispatch({
+  //     type: HIDE_ADD_EXPENSE_LIST_FORM,
+  //   });
+  // };
+}
+
+function clearSelectedExpenseList() {
   return (dispatch) => {
     dispatch({
-      type: HIDE_ADD_EXPENSE_LIST_FORM,
+      type: CLEAR_SELECTED_EXPENSE_LIST,
     });
   };
 }
@@ -70,6 +80,42 @@ function updateExpenseList(updated) {
   };
 }
 
+function deleteExpenseList(listId) {
+  return (dispatch, getState) => {
+    return new Promise(function (resolve) {
+      expenseListCollection
+        .doc(listId)
+        .delete()
+        .then(function () {
+          expensesCollection
+            .where("listId", "==", listId)
+            .get()
+            .then(function (querySnapshot) {
+              const selected = getState().expenseList.selected;
+
+              const batch = db.batch();
+              querySnapshot.forEach(function (doc) {
+                batch.delete(doc.ref);
+              });
+
+              if (selected) {
+                if (selected._id === listId) {
+                  dispatch(clearExpense());
+                }
+              }
+
+              dispatch(clearSelectedExpenseList());
+
+              resolve(batch.commit());
+            });
+        })
+        .catch(function (error) {
+          console.error("Error writing document: ", error);
+        });
+    });
+  };
+}
+
 function fetchExpenseLists() {
   return (dispatch, getState) => {
     const { uid } = getState().user.user;
@@ -88,12 +134,6 @@ function fetchExpenseLists() {
           expenseLists,
         },
       });
-
-      // const { selected } = getState().expenseList;
-
-      // if (!selected) {
-      //   dispatch(selectDailyExpensesList());
-      // }
     });
 
     return unsubscribe;
@@ -135,8 +175,6 @@ function selectDailyExpensesList() {
   return (dispatch, getState) => {
     const { expenseLists } = getState().expenseList;
 
-    console.log("expenseLists", expenseLists);
-
     const { _id } = expenseLists.find(
       (expenseList) => expenseList.title === "Daily Expenses"
     );
@@ -154,4 +192,5 @@ export {
   showAddExpenseListForm,
   hideAddExpenseListForm,
   updateExpenseList,
+  deleteExpenseList,
 };

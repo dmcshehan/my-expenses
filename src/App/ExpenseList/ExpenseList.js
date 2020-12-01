@@ -8,15 +8,17 @@ import AddExpenseListForm from "./AddExpenseListForm/AddExpenseListForm";
 import Header from "./Header/Header";
 import Item from "./Item/Item";
 import ListEmpty from "../ListEmpty/ListEmpty";
+import ColumnInnerWraper from "./../ColumnInnerWrapper/ColumnInnerWraper";
 
 //styles
-import { expenseList, list } from "./ExpenseList.module.css";
+import { list, expenseList } from "./ExpenseList.module.css";
 
 //action creators
 import {
   fetchExpenseLists,
   selectExpenseList,
   updateExpenseList,
+  deleteExpenseList,
 } from "../../store/actionCreators/expenseList";
 
 export default function ExpenseList() {
@@ -24,8 +26,7 @@ export default function ExpenseList() {
 
   const dispatch = useDispatch();
 
-  const { expenseLists } = useSelector((state) => state.expenseList);
-  const { isAddExpenseListFormOpen } = useSelector(
+  const { isAddExpenseListFormOpen, expenseLists } = useSelector(
     (state) => state.expenseList
   );
 
@@ -59,8 +60,9 @@ export default function ExpenseList() {
     event.stopPropagation();
   }
 
-  function deleteLIst(event) {
+  function deleteLIst(event, _id) {
     event.stopPropagation();
+    dispatch(deleteExpenseList(_id));
   }
 
   function update(event) {
@@ -71,11 +73,11 @@ export default function ExpenseList() {
   }
 
   return (
-    <div className={expenseList}>
+    <ColumnInnerWraper className={expenseList}>
       <Header />
       {isAddExpenseListFormOpen ? <AddExpenseListForm /> : null}
       {expenseLists.length === 0 ? (
-        <ListEmpty text='No Lists' />
+        <ListEmpty text="No Lists" />
       ) : (
         <List
           className={list}
@@ -97,6 +99,6 @@ export default function ExpenseList() {
           )}
         />
       )}
-    </div>
+    </ColumnInnerWraper>
   );
 }

@@ -1,0 +1,6 @@
+.wrapper {
+  position: relative;
+  overflow: auto;
+  min-height: calc(100vh - 64px);
+  padding: 10px;
+}

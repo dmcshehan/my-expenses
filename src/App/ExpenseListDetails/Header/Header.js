@@ -2,14 +2,14 @@ import React from "react";
 
 import Title from "../Title/Title";
 import AddButton from "../AddButton/AddButton";
+import ColumnHeader from '../../ColumnHeader/ColumnHeader'
 
-import { header } from "./Header.module.css";
 
 export default function Header() {
   return (
-    <div className={header}>
+    <ColumnHeader>
       <Title />
       <AddButton />
-    </div>
+    </ColumnHeader>
   );
 }

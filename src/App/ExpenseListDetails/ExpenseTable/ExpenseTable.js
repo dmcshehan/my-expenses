@@ -12,16 +12,10 @@ import {
   DatePicker,
 } from "antd";
 
-// import {
-//   DeleteOutlined,
-//   EditOutlined,
-//   CloseOutlined,
-//   SaveOutlined,
-// } from "@ant-design/icons";
-
-import { updateExpense } from "../../../store/actionCreators/expenseListDetails";
-
-//import { fetchExpenses } from "../../../store/actionCreators/expenseListDetails";
+import {
+  updateExpense,
+  deleteExpense,
+} from "../../../store/actionCreators/expenseListDetails";
 
 import { icon } from "./ExpenseTable.module.css";
 const EditableCell = ({
@@ -40,8 +34,8 @@ const EditableCell = ({
     ) : inputType === "date" ? (
       <DatePicker />
     ) : (
-      <Input />
-    );
+          <Input />
+        );
 
   return (
     <td {...restProps}>
@@ -61,15 +55,14 @@ const EditableCell = ({
           {inputNode}
         </Form.Item>
       ) : (
-        children
-      )}
+          children
+        )}
     </td>
   );
 };
 
-export default function EditableTable() {
+export default function EditableTable({ height }) {
   const { expenses } = useSelector((state) => state.expenseListDetails);
-  //const { selected } = useSelector((state) => state.expenseList);
 
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -97,6 +90,21 @@ export default function EditableTable() {
     setEditingId("");
   };
 
+  const deleteExp = (_id) => {
+    try {
+      const newData = [...data];
+      const index = newData.findIndex((item) => _id === item._id);
+
+      newData.splice(index, 1);
+
+      dispatch(deleteExpense(_id)).then(() => {
+        setData(newData);
+      });
+    } catch (errInfo) {
+      console.log("Validate Failed:", errInfo);
+    }
+  };
+
   const save = async (_id) => {
     try {
       const row = await form.validateFields();
@@ -113,8 +121,6 @@ export default function EditableTable() {
         });
       } else {
         newData.push(row);
-        //setData(newData);
-        //setEditingId("");
       }
     } catch (errInfo) {
       console.log("Validate Failed:", errInfo);
@@ -149,10 +155,7 @@ export default function EditableTable() {
         return editable ? (
           <Space>
             <Popconfirm title='Sure to cancel?' onConfirm={cancel}>
-              <span className={icon}>
-                {/* <CloseOutlined /> */}
-                Cancel
-              </span>
+              <span className={icon}>Cancel</span>
             </Popconfirm>
             <span
               onClick={() => save(record._id)}
@@ -161,29 +164,27 @@ export default function EditableTable() {
               }}
               className={icon}
             >
-              {/* <SaveOutlined /> */}
               Save
             </span>
           </Space>
         ) : (
-          <Space size='middle'>
-            <span
-              className={icon}
-              disabled={editingId !== ""}
-              onClick={() => edit(record)}
-            >
-              {/* <EditOutlined /> */}
-              Edit
+            <Space size='middle'>
+              <span
+                className={icon}
+                disabled={editingId !== ""}
+                onClick={() => edit(record)}
+              >
+                Edit
             </span>
 
-            <Popconfirm title='Sure to delete?' onConfirm={cancel}>
-              <span className={icon}>
-                {/* <DeleteOutlined /> */}
-                Delete
-              </span>
-            </Popconfirm>
-          </Space>
-        );
+              <Popconfirm
+                title='Sure to delete?'
+                onConfirm={() => deleteExp(record._id)}
+              >
+                <span className={icon}>Delete</span>
+              </Popconfirm>
+            </Space>
+          );
       },
     },
   ];
@@ -201,8 +202,8 @@ export default function EditableTable() {
           col.dataIndex === "cost"
             ? "number"
             : col.dataIndex === "date"
-            ? "date"
-            : "text",
+              ? "date"
+              : "text",
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
@@ -223,9 +224,11 @@ export default function EditableTable() {
         dataSource={data}
         columns={mergedColumns}
         rowClassName='editable-row'
-        pagination={{
-          onChange: cancel,
-        }}
+        // pagination={{
+        //   onChange: cancel,
+        // }}
+        pagination={false}
+        scroll={{ y: `calc(100vh - ${height}px)` }}
       />
     </Form>
   );

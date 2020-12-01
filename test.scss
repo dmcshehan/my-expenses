@@ -1,0 +1,302 @@
+@font-face {
+  font-family: "Circular Bold";
+  src: url("//db.onlinewebfonts.com/t/27c8b64c285e64ed247c83fd3465e8c5.eot");
+  src: url("//db.onlinewebfonts.com/t/27c8b64c285e64ed247c83fd3465e8c5.eot?#iefix")
+      format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/27c8b64c285e64ed247c83fd3465e8c5.woff2")
+      format("woff2"),
+    url("//db.onlinewebfonts.com/t/27c8b64c285e64ed247c83fd3465e8c5.woff")
+      format("woff"),
+    url("//db.onlinewebfonts.com/t/27c8b64c285e64ed247c83fd3465e8c5.ttf")
+      format("truetype"),
+    url("//db.onlinewebfonts.com/t/27c8b64c285e64ed247c83fd3465e8c5.svg#Circular Bold")
+      format("svg");
+}
+
+/* variables */
+$primary: #29bc1e;
+$black: #383c42;
+
+/* Mixins */
+
+@mixin transition {
+  transition: all 0.3s ease;
+}
+
+/* Base Styles */
+
+html {
+  font-size: 10px;
+}
+
+.wdp_flex {
+  display: flex;
+  align-items: center;
+}
+
+.wdp_white_col {
+  background: white !important;
+  padding: 20px;
+}
+
+span.wdp_tags {
+  display: inline-block;
+  padding: 3px 10px !important;
+  background: rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+}
+
+a.more-link {
+  text-transform: capitalize;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 5px 20px;
+  margin-top: 20px;
+  display: inline-block;
+}
+
+//top navigation
+
+ul.sub-menu {
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+
+  li {
+    padding: 0 !important;
+
+    a {
+      width: 100% !important;
+    }
+  }
+}
+
+//fonts
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.et_pb_button,
+#top-menu li a,
+.nav-label {
+  font-family: "Circular Bold" !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 900 !important;
+}
+
+// Title Styles
+h1 {
+  font-size: 4.5rem !important;
+  line-height: 4.5rem !important;
+}
+
+h2 {
+  font-size: 3.5rem !important;
+}
+
+h3 {
+  font-size: 2.5rem !important;
+}
+
+h4 {
+  font-size: 1.6rem !important;
+  line-height: 2.5rem !important;
+}
+
+// Paragraph Styles
+
+p,
+ul li span,
+ul li {
+  line-height: 1.8em !important;
+  font-weight: 300 !important;
+}
+
+.et_pb_pricing li {
+  padding-bottom: 1rem;
+}
+
+// Buttoons
+.et_pb_button {
+  font-weight: 700 !important;
+}
+
+//Images
+
+body {
+  img {
+    border-radius: 5px;
+  }
+}
+
+// Page Hero
+.page .et_pb_section_0,
+.single-project .et_pb_section_0 {
+  background-color: $black !important;
+
+  h1,
+  h4 {
+    color: white;
+  }
+}
+
+// Pricing Tables
+
+.et_pb_pricing_table {
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3) !important;
+  .et_pb_pricing_heading {
+    background-color: $black !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+}
+
+.wdp_page_hero {
+  position: relative;
+}
+
+// Blurbs
+
+.wdp_blurb {
+  img {
+    max-width: 50px !important;
+  }
+}
+
+// Testimonials
+
+.wdp_testimonial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .et_pb_testimonial_portrait {
+    margin: 0 auto 20px !important;
+  }
+
+  .et_pb_testimonial_description {
+    margin-left: 0 !important;
+  }
+}
+
+// Member Module
+
+.wdp_member {
+  img {
+    width: 150px;
+  }
+
+  p.et_pb_member_position {
+    margin-bottom: 10px;
+  }
+}
+
+// Shop module
+
+span.onsale {
+  padding: 0 8px !important;
+}
+
+/* HOME Page */
+
+.play-video {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #000;
+  border-radius: 100%;
+  background: url(https://webdevpal.com/wp-content/uploads/2019/10/play-button.png);
+  background-size: 40px;
+  margin-top: 30px;
+  cursor: pointer;
+  @include transition();
+
+  &:hover {
+    transform: scale(1.15);
+  }
+}
+
+.wdp_expertise_blurb {
+  //box-shadow: 0 0 7px rgba(0,0,0,.3);
+  border-radius: 5px;
+  .et_pb_module_header {
+    margin-bottom: 15px;
+  }
+}
+
+/* Single post*/
+
+.single-post {
+  div#content-area {
+    display: flex !important;
+  }
+
+  div#et-boc {
+    margin: 0 auto;
+  }
+
+  .et_post_meta_wrapper:first-child {
+    text-align: center !important;
+
+    .entry-title {
+      font-size: 35px;
+    }
+    .post-meta {
+      font-size: 16px !important;
+      margin-bottom: 25px;
+    }
+  }
+  #main-content {
+    .container {
+      max-width: 800px !important;
+    }
+  }
+}
+
+.single .saboxplugin-wrap {
+  display: none !important;
+}
+.single-post .entry-content .saboxplugin-wrap {
+  display: block !important;
+}
+
+/* Single posts */
+
+.single {
+  .et_post_meta_wrapper {
+    width: 100% !important;
+  }
+}
+
+/* Media Quaries */
+
+@media screen and (max-width: 979px) {
+}
+
+@media screen and (max-width: 479px) {
+  // Title Styles
+  h1 {
+    font-size: 4rem !important;
+    line-height: 5rem !important;
+  }
+
+  h2 {
+    font-size: 3rem !important;
+  }
+
+  .wdp_home_slider {
+    .et_pb_slide_description {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+}

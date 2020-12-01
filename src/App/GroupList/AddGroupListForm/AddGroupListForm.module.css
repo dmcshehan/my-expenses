@@ -1,0 +1,12 @@
+.input {
+  outline: none;
+  width: 100% !important;
+}
+
+.formComp {
+  margin-top: 10px !important;
+}
+
+/* .listName {
+  width: calc(100% - 120px);
+} */

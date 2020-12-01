@@ -1,30 +1,21 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { Layout } from "antd";
-import RightLayout from "../RightLayout/RightLayout";
+import { Redirect } from "react-router-dom";
 
-import { hideAddExpenseForm } from "../../store/actionCreators/expenseListDetails";
-import { hideAddExpenseListForm } from "../../store/actionCreators/expenseList";
+import Header from '../Header/Header'
 
-//import Sider from "../Sider/Sider";
+import useIsLoggedIn from '../../hooks/useIsLoggedIn'
 
 export default function LayoutComp({ children }) {
-  const dispatch = useDispatch();
-  const expenseListDetails = useSelector((state) => state.expenseListDetails);
-  const expenseList = useSelector((state) => state.expenseList);
 
-  function closeAddExpenseForm(event) {
-    if (expenseListDetails.isAddExpenseFormOpen) {
-      dispatch(hideAddExpenseForm());
-    }
-    if (expenseList.isAddExpenseListFormOpen) {
-      dispatch(hideAddExpenseListForm());
-    }
-  }
 
-  return (
-    <Layout onClick={closeAddExpenseForm}>
-      <RightLayout>{children}</RightLayout>
+  const isLoggedIn = useIsLoggedIn();
+
+
+  return isLoggedIn ?
+    <Layout className="layout">
+      <Header />
+      <div style={{ height: 'calc(100vh - 64px)' }}>{children}</div>
     </Layout>
-  );
+    : <Redirect to='/signin' />;
 }

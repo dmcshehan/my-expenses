@@ -9,10 +9,17 @@ import dropdownReducer from "./dropdown";
 import notificationReducer from "./notification";
 import expenseListReducer from "./expenseList";
 import expenseListDetailsReducer from "./expenseListDetails";
+import groupListReducer from "./groupList";
+import groupListDetailsReducer from "./groupListDetails";
 
 const blackListAddExpenseListForm = createBlacklistFilter("expenseList", [
   "isAddExpenseListFormOpen",
 ]);
+
+const blackListAddGroupListForm = createBlacklistFilter("groupList", [
+  "isAddGroupListFormOpen",
+]);
+
 const blackListAddExpenseListDetailsForm = createBlacklistFilter(
   "expenseListDetails",
   ["isAddExpenseFormOpen"]
@@ -22,7 +29,11 @@ const persistConfig = {
   key: "root",
   storage,
   blacklist: ["dropDown", "notification"],
-  transforms: [blackListAddExpenseListForm, blackListAddExpenseListDetailsForm],
+  transforms: [
+    blackListAddExpenseListForm,
+    blackListAddExpenseListDetailsForm,
+    blackListAddGroupListForm,
+  ],
 };
 
 const rootReducer = combineReducers({
@@ -31,6 +42,8 @@ const rootReducer = combineReducers({
   notification: notificationReducer,
   expenseList: expenseListReducer,
   expenseListDetails: expenseListDetailsReducer,
+  groupList: groupListReducer,
+  groupListDetails: groupListDetailsReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);
