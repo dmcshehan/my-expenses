@@ -1,15 +1,13 @@
 .logo {
-  padding: 0 28px;
   background-color: white;
-  border-bottom: 1px solid #f0f2f5;
-  border-right: 1px solid #f0f2f5;
   height: 42px;
 
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .title {
   margin-bottom: 0 !important;
-  font-weight: 100 !important;
+  font-weight: 700 !important;
 }

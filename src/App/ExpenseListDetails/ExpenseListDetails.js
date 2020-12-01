@@ -7,6 +7,7 @@ import ExpenseTable from "./ExpenseTable/ExpenseTable";
 import { Space } from "antd";
 
 import { expenseListDetails, space } from "./ExpenseListDetails.module.css";
+import ColumnInnerWraper from './../ColumnInnerWrapper/ColumnInnerWraper';
 
 export default function ExpenseListDetails() {
   const { selected } = useSelector((state) => state.expenseList);
@@ -16,13 +17,13 @@ export default function ExpenseListDetails() {
 
   if (selected) {
     return (
-      <div className={expenseListDetails}>
+      <ColumnInnerWraper className={expenseListDetails}>
         <Space direction='vertical' size='middle' className={space}>
           <Header />
           {isAddExpenseFormOpen ? <AddExpenseForm /> : null}
-          <ExpenseTable />
+          <ExpenseTable height={isAddExpenseFormOpen ? 236 : 188} />
         </Space>
-      </div>
+      </ColumnInnerWraper>
     );
   }
 

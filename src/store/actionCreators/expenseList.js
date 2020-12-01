@@ -22,11 +22,11 @@ function showAddExpenseListForm() {
 }
 
 function hideAddExpenseListForm() {
-  return (dispatch) => {
-    dispatch({
-      type: HIDE_ADD_EXPENSE_LIST_FORM,
-    });
-  };
+  // return (dispatch) => {
+  //   dispatch({
+  //     type: HIDE_ADD_EXPENSE_LIST_FORM,
+  //   });
+  // };
 }
 
 function clearSelectedExpenseList() {
@@ -91,14 +91,17 @@ function deleteExpenseList(listId) {
             .where("listId", "==", listId)
             .get()
             .then(function (querySnapshot) {
+              const selected = getState().expenseList.selected;
+
               const batch = db.batch();
-              const { _id } = getState().expenseList.selected;
               querySnapshot.forEach(function (doc) {
                 batch.delete(doc.ref);
               });
 
-              if (_id === listId) {
-                dispatch(clearExpense());
+              if (selected) {
+                if (selected._id === listId) {
+                  dispatch(clearExpense());
+                }
               }
 
               dispatch(clearSelectedExpenseList());
