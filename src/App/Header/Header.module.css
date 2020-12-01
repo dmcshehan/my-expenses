@@ -1,11 +1,8 @@
 .header {
-  padding: 0 !important;
-  height: 42px !important;
-
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-left: 16px !important;
-  padding-right: 16px !important;
+  justify-content: space-between;
   background-color: white !important;
+
+  padding: 0 10px !important;
 }

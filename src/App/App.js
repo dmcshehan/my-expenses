@@ -9,7 +9,7 @@ import { userLoginSuccess } from "../store/actionCreators/user";
 
 import Dashboard from "./Dashboard/Dashboard";
 import Lists from "./Lists/Lists";
-import Projects from './Projects/Projects'
+import Groups from './Groups/Groups'
 import Layout from './Layout/Layout'
 
 
@@ -49,7 +49,7 @@ export default function App() {
             <Route exact path='/signin' component={Signin} />
             <Route exact path='/dashboard' component={Dashboard} />
             <Route exact path='/lists' component={Lists} />
-            <Route exact path="/projects" component={Projects} />
+            <Route exact path="/projects" component={Groups} />
             <Route path='/' component={Signin} />
           </Switch>
         </Layout>

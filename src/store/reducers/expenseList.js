@@ -38,6 +38,7 @@ export default (state = initialState, action) =>
       case SHOW_ADD_EXPENSE_LIST_FORM:
         draftState.isAddExpenseListFormOpen = true;
         break;
+
       case HIDE_ADD_EXPENSE_LIST_FORM:
         draftState.isAddExpenseListFormOpen = false;
         break;

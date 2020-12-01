@@ -6,11 +6,11 @@ import ExpenseTable from "./ExpenseTable/ExpenseTable";
 
 import { Space } from "antd";
 
-import { expenseListDetails, space } from "./ExpenseListDetails.module.css";
-import ColumnInnerWraper from './../ColumnInnerWrapper/ColumnInnerWraper';
+import { expenseListDetails, space } from "./GroupListDetails.module.css";
+import ColumnInnerWraper from '../ColumnInnerWrapper/ColumnInnerWraper';
 
 export default function ExpenseListDetails() {
-  const { selected } = useSelector((state) => state.expenseList);
+  const { selected } = useSelector((state) => state.groupList);
   const { isAddExpenseFormOpen } = useSelector(
     (state) => state.expenseListDetails
   );

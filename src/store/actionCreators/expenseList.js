@@ -22,11 +22,11 @@ function showAddExpenseListForm() {
 }
 
 function hideAddExpenseListForm() {
-  return (dispatch) => {
-    dispatch({
-      type: HIDE_ADD_EXPENSE_LIST_FORM,
-    });
-  };
+  // return (dispatch) => {
+  //   dispatch({
+  //     type: HIDE_ADD_EXPENSE_LIST_FORM,
+  //   });
+  // };
 }
 
 function clearSelectedExpenseList() {

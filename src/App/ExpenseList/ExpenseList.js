@@ -8,9 +8,11 @@ import AddExpenseListForm from "./AddExpenseListForm/AddExpenseListForm";
 import Header from "./Header/Header";
 import Item from "./Item/Item";
 import ListEmpty from "../ListEmpty/ListEmpty";
+import ColumnInnerWraper from './../ColumnInnerWrapper/ColumnInnerWraper';
+
 
 //styles
-import { expenseList, list } from "./ExpenseList.module.css";
+import { list, expenseList } from "./ExpenseList.module.css";
 
 //action creators
 import {
@@ -25,10 +27,7 @@ export default function ExpenseList() {
 
   const dispatch = useDispatch();
 
-  const { expenseLists } = useSelector((state) => state.expenseList);
-  const { isAddExpenseListFormOpen } = useSelector(
-    (state) => state.expenseList
-  );
+  const { isAddExpenseListFormOpen, expenseLists } = useSelector((state) => state.expenseList);
 
   useEffect(() => {
     const unsubscribe = dispatch(fetchExpenseLists());
@@ -73,32 +72,32 @@ export default function ExpenseList() {
   }
 
   return (
-    <div className={expenseList}>
+    <ColumnInnerWraper className={expenseList}>
       <Header />
       {isAddExpenseListFormOpen ? <AddExpenseListForm /> : null}
       {expenseLists.length === 0 ? (
         <ListEmpty text='No Lists' />
       ) : (
-        <List
-          className={list}
-          dataSource={expenseLists}
-          renderItem={(item) => (
-            <Item
-              {...item}
-              {...{
-                updating,
-                update,
-                deleteLIst,
-                cancelUpdate,
-                onUpdate,
-                makeUpdatable,
-                selectList,
-                stopPropogation,
-              }}
-            />
-          )}
-        />
-      )}
-    </div>
+          <List
+            className={list}
+            dataSource={expenseLists}
+            renderItem={(item) => (
+              <Item
+                {...item}
+                {...{
+                  updating,
+                  update,
+                  deleteLIst,
+                  cancelUpdate,
+                  onUpdate,
+                  makeUpdatable,
+                  selectList,
+                  stopPropogation,
+                }}
+              />
+            )}
+          />
+        )}
+    </ColumnInnerWraper>
   );
 }
