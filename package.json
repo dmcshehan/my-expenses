@@ -10,7 +10,7 @@
     "antd": "^4.5.1",
     "currency-formatter": "^1.5.6",
     "firebase": "^7.15.2",
-    "immer": "^7.0.1",
+    "immer": "^8.0.1",
     "moment": "^2.28.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
